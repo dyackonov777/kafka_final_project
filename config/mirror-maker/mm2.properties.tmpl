@@ -1,0 +1,61 @@
+# MirrorMaker 2 (dedicated mode): дублирование данных primary -> analytics.
+# __KEYSTORE_PASSWORD__ подставляется из .env при старте контейнера.
+# В обоих кластерах MM2 подключается по mTLS с сертификатом CN=mirror-maker:
+#   primary   — только чтение реплицируемых топиков (ACL);
+#   analytics — super user: создаёт топики-копии и служебные топики MM2.
+
+clusters = primary, analytics
+
+# --- общие параметры TLS для обоих кластеров ---
+primary.security.protocol = SSL
+primary.ssl.truststore.type = PKCS12
+primary.ssl.truststore.location = /etc/kafka/clients/client.truststore.p12
+primary.ssl.truststore.password = __KEYSTORE_PASSWORD__
+primary.ssl.keystore.type = PKCS12
+primary.ssl.keystore.location = /etc/kafka/clients/mirror-maker/mirror-maker.keystore.p12
+primary.ssl.keystore.password = __KEYSTORE_PASSWORD__
+primary.ssl.key.password = __KEYSTORE_PASSWORD__
+primary.ssl.endpoint.identification.algorithm = https
+
+analytics.security.protocol = SSL
+analytics.ssl.truststore.type = PKCS12
+analytics.ssl.truststore.location = /etc/kafka/clients/client.truststore.p12
+analytics.ssl.truststore.password = __KEYSTORE_PASSWORD__
+analytics.ssl.keystore.type = PKCS12
+analytics.ssl.keystore.location = /etc/kafka/clients/mirror-maker/mirror-maker.keystore.p12
+analytics.ssl.keystore.password = __KEYSTORE_PASSWORD__
+analytics.ssl.key.password = __KEYSTORE_PASSWORD__
+analytics.ssl.endpoint.identification.algorithm = https
+
+primary.bootstrap.servers = kafka-1:19092,kafka-2:19092,kafka-3:19092
+analytics.bootstrap.servers = kafka-b1:19092,kafka-b2:19092,kafka-b3:19092
+
+# --- направление репликации ---
+primary->analytics.enabled = true
+# Сырые товары от магазинов (резервная копия), отфильтрованные товары, запросы клиентов и заказы
+primary->analytics.topics = shop-products, products-filtered, client-requests, orders
+analytics->primary.enabled = false
+# Иначе MM2 создаёт heartbeat-топики и служебные топики и для обратного направления (в primary)
+analytics->primary.emit.heartbeats.enabled = false
+
+# Служебный топик offset-syncs держим в целевом кластере: MM2 ничего не пишет в primary
+offset-syncs.topic.location = target
+
+# Синхронизация групп/ACL/конфигов не нужна: в analytics свои потребители и свои ACL
+emit.checkpoints.enabled = false
+sync.group.offsets.enabled = false
+sync.topic.acls.enabled = false
+sync.topic.configs.enabled = false
+refresh.topics.interval.seconds = 30
+
+# Надёжность в аналитическом кластере (3 брокера): RF=3, запись с acks=all
+replication.factor = 3
+heartbeats.topic.replication.factor = 3
+checkpoints.topic.replication.factor = 3
+offset-syncs.topic.replication.factor = 3
+offset.storage.replication.factor = 3
+status.storage.replication.factor = 3
+config.storage.replication.factor = 3
+analytics.producer.acks = all
+
+tasks.max = 3

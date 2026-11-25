@@ -1,0 +1,32 @@
+# Шаблон с уведомлениями в Telegram. Плейсхолдеры заменяются значениями из .env при старте контейнера.
+global:
+  resolve_timeout: 5m
+
+route:
+  receiver: notify
+  group_by: ["alertname", "broker"]
+  group_wait: 10s
+  group_interval: 1m
+  repeat_interval: 1h
+
+receivers:
+  - name: notify
+    webhook_configs:
+      - url: http://alert-webhook:5001/alerts
+        send_resolved: true
+    telegram_configs:
+      - bot_token: "__TELEGRAM_BOT_TOKEN__"
+        chat_id: __TELEGRAM_CHAT_ID__
+        send_resolved: true
+        parse_mode: HTML
+        message: |-
+          {{ if eq .Status "firing" }}🔴 <b>FIRING</b>{{ else }}✅ <b>RESOLVED</b>{{ end }} {{ .CommonLabels.alertname }}
+          {{ range .Alerts }}
+          <b>{{ .Annotations.summary }}</b>
+          {{ .Annotations.description }}
+          severity: {{ .Labels.severity }}
+          {{ end }}
+
+inhibit_rules:
+  - source_matchers: ["alertname = KafkaBrokerDown"]
+    target_matchers: ["alertname = KafkaUnderReplicatedPartitions"]

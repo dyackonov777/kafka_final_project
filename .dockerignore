@@ -1,0 +1,12 @@
+.git
+.env
+certs
+data
+docs
+monitoring
+analytics
+scripts
+**/__pycache__
+**/*.pyc
+.venv
+.idea

@@ -1,0 +1,380 @@
+DAS@DESKTOP-20TD790 MINGW64 ~/Desktop/kafka-final-project (main)
+$ bash start.sh
+
+==== 1/6 Конфигурация и сертификаты
+Каталог certs/ уже существует, пропускаю генерацию (--force для пересоздания).
+
+==== 2/6 Сборка образов
+[+] Building 3.6s (33/33) FINISHED                                                                                                                                                                                                  
+ => [internal] load local bake definitions                                                                                                                                                                                     0.0s
+ => => reading from stdin 1.12kB                                                                                                                                                                                               0.0s
+ => [kafka-1 internal] load build definition from Dockerfile                                                                                                                                                                   0.0s
+ => => transferring dockerfile: 897B                                                                                                                                                                                           0.0s
+ => [kafka-connect internal] load build definition from Dockerfile                                                                                                                                                             0.0s
+ => => transferring dockerfile: 1.19kB                                                                                                                                                                                         0.0s
+ => [faust-moderation internal] load build definition from Dockerfile                                                                                                                                                          0.0s
+ => => transferring dockerfile: 615B                                                                                                                                                                                           0.0s
+ => [faust-moderation internal] load metadata for docker.io/library/python:3.12-slim                                                                                                                                           1.3s
+ => [kafka-connect] resolve image config for docker-image://docker.io/docker/dockerfile:1                                                                                                                                      1.2s
+ => CACHED [kafka-1] docker-image://docker.io/docker/dockerfile:1@sha256:572cebbc2b15e6f84c077742952674889cb63cd5e9b80abdffcbe587b6f19183                                                                                      0.0s
+ => => resolve docker.io/docker/dockerfile:1@sha256:572cebbc2b15e6f84c077742952674889cb63cd5e9b80abdffcbe587b6f19183                                                                                                           0.0s 
+ => CACHED [kafka-connect internal] load .dockerignore                                                                                                                                                                         0.0s 
+ => => transferring context: 131B                                                                                                                                                                                              0.0s 
+ => [faust-moderation 1/5] FROM docker.io/library/python:3.12-slim@sha256:191083cdf6c7bda8c76158983163ead5d5cf7b77cf3033e805bb0f5296f51b4b                                                                                     0.0s 
+ => => resolve docker.io/library/python:3.12-slim@sha256:191083cdf6c7bda8c76158983163ead5d5cf7b77cf3033e805bb0f5296f51b4b                                                                                                      0.0s 
+ => [faust-moderation internal] load build context                                                                                                                                                                             0.0s 
+ => => transferring context: 489B                                                                                                                                                                                              0.0s 
+ => CACHED [faust-moderation 2/5] WORKDIR /app                                                                                                                                                                                 0.0s 
+ => CACHED [faust-moderation 3/5] COPY app/requirements.txt ./requirements.txt                                                                                                                                                 0.0s 
+ => CACHED [faust-moderation 4/5] RUN pip install --upgrade pip && pip install -r requirements.txt                                                                                                                             0.0s 
+ => CACHED [faust-moderation 5/5] COPY app/marketplace ./marketplace                                                                                                                                                           0.0s 
+ => [faust-moderation] exporting to image                                                                                                                                                                                      0.1s 
+ => => exporting layers                                                                                                                                                                                                        0.0s
+ => => exporting manifest sha256:89b9b0257c7e7310fc5ba26f96c2bb8760a3fbad2ed419858efcda03bcf050af                                                                                                                              0.0s 
+ => => exporting config sha256:931d3022813f5572f4ff95fec5906bc38f5aeaa3c0c808c0f442ee3e8573c8c6                                                                                                                                0.0s 
+ => => exporting attestation manifest sha256:2e1d3156c6470032f89067cc9063f14af0adc537db7f0930725903e8d15e6832                                                                                                                  0.0s 
+ => => exporting manifest list sha256:634fd8ea36e77cc2b1af85e1053fb2b29818b3c85c5969e50553f371c0271d0f                                                                                                                         0.0s 
+ => => naming to docker.io/marketplace/app:1.0                                                                                                                                                                                 0.0s
+ => => unpacking to docker.io/marketplace/app:1.0                                                                                                                                                                              0.0s 
+ => [kafka-1 internal] load metadata for docker.io/confluentinc/cp-kafka:7.6.1                                                                                                                                                 1.0s 
+ => [kafka-connect internal] load metadata for docker.io/confluentinc/cp-kafka-connect:7.6.1                                                                                                                                   1.1s
+ => [faust-moderation] resolving provenance for metadata file                                                                                                                                                                  0.0s
+ => [kafka-1 1/4] FROM docker.io/confluentinc/cp-kafka:7.6.1@sha256:620734d9fc0bb1f9886932e5baf33806074469f40e3fe246a3fdbb59309535fa                                                                                           0.0s 
+ => => resolve docker.io/confluentinc/cp-kafka:7.6.1@sha256:620734d9fc0bb1f9886932e5baf33806074469f40e3fe246a3fdbb59309535fa                                                                                                   0.0s 
+ => [kafka-1 3/4] ADD --chmod=644     https://repo1.maven.org/maven2/io/prometheus/jmx/jmx_prometheus_javaagent/0.20.0/jmx_prometheus_javaagent-0.20.0.jar     /opt/jmx-exporter/jmx_prometheus_javaagent.jar                  0.3s 
+ => [kafka-connect 1/6] FROM docker.io/confluentinc/cp-kafka-connect:7.6.1@sha256:4539c1f3169f6dca603b29fd42a693295e849bc48cdc0583dff7708748659d76                                                                             0.0s 
+ => => resolve docker.io/confluentinc/cp-kafka-connect:7.6.1@sha256:4539c1f3169f6dca603b29fd42a693295e849bc48cdc0583dff7708748659d76                                                                                           0.0s 
+ => CACHED [kafka-1 2/4] RUN mkdir -p /opt/jmx-exporter                                                                                                                                                                        0.0s 
+ => CACHED [kafka-1 3/4] ADD --chmod=644     https://repo1.maven.org/maven2/io/prometheus/jmx/jmx_prometheus_javaagent/0.20.0/jmx_prometheus_javaagent-0.20.0.jar     /opt/jmx-exporter/jmx_prometheus_javaagent.jar           0.0s 
+ => CACHED [kafka-1 4/4] RUN ls -lh /opt/jmx-exporter/jmx_prometheus_javaagent.jar &&     test -s /opt/jmx-exporter/jmx_prometheus_javaagent.jar &&     jar tf /opt/jmx-exporter/jmx_prometheus_javaagent.jar > /dev/null      0.0s 
+ => CACHED [kafka-connect 2/6] RUN mkdir -p /opt/jmx-exporter                                                                                                                                                                  0.0s 
+ => CACHED [kafka-connect 3/6] ADD --chmod=644     https://repo1.maven.org/maven2/io/prometheus/jmx/jmx_prometheus_javaagent/0.20.0/jmx_prometheus_javaagent-0.20.0.jar     /opt/jmx-exporter/jmx_prometheus_javaagent.jar     0.0s 
+ => CACHED [kafka-connect 4/6] RUN ls -lh /opt/jmx-exporter/jmx_prometheus_javaagent.jar &&     test -s /opt/jmx-exporter/jmx_prometheus_javaagent.jar &&     jar tf /opt/jmx-exporter/jmx_prometheus_javaagent.jar > /dev/nu  0.0s 
+ => CACHED [kafka-connect 5/6] RUN confluent-hub install --no-prompt       --component-dir /usr/share/confluent-hub-components       --worker-configs /dev/null       confluentinc/kafka-connect-elasticsearch:15.0.0          0.0s 
+ => CACHED [kafka-connect 6/6] RUN mkdir -p /data/sink && chown appuser:appuser /data/sink                                                                                                                                     0.0s 
+ => [kafka-1] exporting to image                                                                                                                                                                                               0.1s 
+ => => exporting layers                                                                                                                                                                                                        0.0s 
+ => => exporting manifest sha256:e3176bc90e90563ae918c607d587b7280677f68c6da003a9c35b0b6568b9bebd                                                                                                                              0.0s 
+ => => exporting config sha256:8d0cc1b903835104dfb3f2b631075eaa39a807be4a71ee7ae4bdc48f43c8f2a5                                                                                                                                0.0s 
+ => => exporting attestation manifest sha256:19006b78a0691631c87e70adbe8de78f6d3be819fef19929e3ef216df267fa0e                                                                                                                  0.0s 
+ => => exporting manifest list sha256:2958d778ed1d2aba8676dff2f258f71698e8903f7b7a3df3003357df6f5086c2                                                                                                                         0.0s 
+ => => naming to docker.io/marketplace/kafka-jmx:7.6.1                                                                                                                                                                         0.0s 
+ => => unpacking to docker.io/marketplace/kafka-jmx:7.6.1                                                                                                                                                                      0.0s 
+ => [kafka-connect] exporting to image                                                                                                                                                                                         0.2s 
+ => => exporting layers                                                                                                                                                                                                        0.0s 
+ => => exporting manifest sha256:ab9e92748fccc67bdfcd610d0a0ed84f69487812323ef0d8b32fa741d8ffe7c9                                                                                                                              0.0s 
+ => => exporting config sha256:ce36cd2f607ac7d6c8c019ba9fdeafc80b52bc7b0015557babc81e436c758886                                                                                                                                0.0s 
+ => => exporting attestation manifest sha256:840768b7cf97bddd176fcc4c5d5fb96ff266d3a5b8e5322adbb211b593a26db9                                                                                                                  0.0s 
+ => => exporting manifest list sha256:a39d365bb9495a2c23c72dd7e2bfcff666dbb683ed2558575780ddfafb6ebe8c                                                                                                                         0.0s 
+ => => naming to docker.io/marketplace/kafka-connect:7.6.1                                                                                                                                                                     0.0s 
+ => => unpacking to docker.io/marketplace/kafka-connect:7.6.1                                                                                                                                                                  0.0s 
+ => [kafka-1] resolving provenance for metadata file                                                                                                                                                                           0.1s 
+ => [kafka-connect] resolving provenance for metadata file                                                                                                                                                                     0.0s 
+[+] Building 3/3                                                                                                                                                                                                                    
+ ✔ kafka-1           Built                                                                                                                                                                                                     0.0s 
+ ✔ faust-moderation  Built                                                                                                                                                                                                     0.0s 
+ ✔ kafka-connect     Built                                                                                                                                                                                                     0.0s 
+
+==== 3/6 Кластеры Kafka, топики и ACL
+[+] Running 8/8
+ ✔ Network marketplace-analytics_default  Created                                                                                                                                                                              0.0s 
+ ✔ Container kafka-1                      Healthy                                                                                                                                                                             24.7s 
+ ✔ Container kafka-b1                     Healthy                                                                                                                                                                             24.2s 
+ ✔ Container kafka-b3                     Healthy                                                                                                                                                                             24.7s 
+ ✔ Container kafka-2                      Healthy                                                                                                                                                                             24.7s 
+ ✔ Container kafka-b2                     Healthy                                                                                                                                                                             23.7s 
+ ✔ Container kafka-tools                  Healthy                                                                                                                                                                              1.2s 
+ ✔ Container kafka-3                      Healthy                                                                                                                                                                             24.7s 
+== Топики (3 партиции, RF=3, min.insync.replicas=2)
+== ACL
+
+== Итог: топики
+Topic: connect-configs  TopicId: JAKrm2dtRUuc-h2eQTx8pA PartitionCount: 1       ReplicationFactor: 3    Configs: min.insync.replicas=2,cleanup.policy=compact,unclean.leader.election.enable=false
+Topic: shop-products-dlq        TopicId: 1fYOiGCUR4aD_lvIFW4eqg PartitionCount: 3       ReplicationFactor: 3    Configs: min.insync.replicas=2,retention.ms=1209600000,unclean.leader.election.enable=false
+Topic: faust-moderation-banned-products-table-changelog TopicId: QCvDn6RWTAirMb-xHRthZQ PartitionCount: 3       ReplicationFactor: 3    Configs: min.insync.replicas=2,cleanup.policy=compact,unclean.leader.election.enable=false
+Topic: client-requests  TopicId: Zhk97PJ7S-e_nM6xR5FZKA PartitionCount: 3       ReplicationFactor: 3    Configs: min.insync.replicas=2,retention.ms=1209600000,unclean.leader.election.enable=false
+Topic: faust-moderation-stock-reserved-changelog        TopicId: XEIcD1BOT8u0aaclX--jxQ PartitionCount: 3       ReplicationFactor: 3    Configs: min.insync.replicas=2,cleanup.policy=compact,unclean.leader.election.enable=false
+Topic: faust-moderation-stock-reservations      TopicId: gEd4rICpRx-PYBIXrNx-UQ PartitionCount: 3       ReplicationFactor: 3    Configs: min.insync.replicas=2,unclean.leader.election.enable=false
+Topic: connect-offsets  TopicId: cT_RNb9RQm-HAybWMh81xg PartitionCount: 25      ReplicationFactor: 3    Configs: min.insync.replicas=2,cleanup.policy=compact,unclean.leader.election.enable=false
+Topic: faust-moderation-orders-processed-changelog      TopicId: IY7OzXQ6S4SFkbjXGe2Kyg PartitionCount: 3       ReplicationFactor: 3    Configs: min.insync.replicas=2,cleanup.policy=compact,unclean.leader.election.enable=false
+Topic: products-filtered        TopicId: PnsIK5b0SF2KrwzfQppcxQ PartitionCount: 3       ReplicationFactor: 3    Configs: min.insync.replicas=2,retention.ms=604800000,unclean.leader.election.enable=false
+Topic: recommendations  TopicId: qCDoFJw5Tj2eZgoO3XXJrQ PartitionCount: 3       ReplicationFactor: 3    Configs: min.insync.replicas=2,cleanup.policy=compact,unclean.leader.election.enable=false
+Topic: faust-moderation-__assignor-__leader     TopicId: sl2tjDq6ReGDz87aLP_4Hg PartitionCount: 1       ReplicationFactor: 3    Configs: min.insync.replicas=2,unclean.leader.election.enable=false
+Topic: banned-products  TopicId: Z5mqu-p2RFi0IeAZmZIqog PartitionCount: 3       ReplicationFactor: 3    Configs: min.insync.replicas=2,cleanup.policy=compact,unclean.leader.election.enable=false
+Topic: faust-moderation-products-latest-changelog       TopicId: _TqMrq6zSCmD4pYkL4k_bQ PartitionCount: 3       ReplicationFactor: 3    Configs: min.insync.replicas=2,cleanup.policy=compact,unclean.leader.election.enable=false
+Topic: connect-status   TopicId: QGYXqLlmRquEN7Q5QIDZXA PartitionCount: 5       ReplicationFactor: 3    Configs: min.insync.replicas=2,cleanup.policy=compact,unclean.leader.election.enable=false
+Topic: orders   TopicId: Lr9S2KBzShy9RBNcuzNH7g PartitionCount: 3       ReplicationFactor: 3    Configs: min.insync.replicas=2,retention.ms=2592000000,unclean.leader.election.enable=false
+Topic: connect-dlq-elasticsearch        TopicId: Sgy1l5eeSxO5JK2QmIeorA PartitionCount: 1       ReplicationFactor: 3    Configs: min.insync.replicas=2,unclean.leader.election.enable=false
+Topic: shop-products    TopicId: VinE_Y07Sn-b40vPyuzDJg PartitionCount: 3       ReplicationFactor: 3    Configs: min.insync.replicas=2,retention.ms=604800000,unclean.leader.election.enable=false
+
+== Итог: ACL
+Current ACLs for resource `ResourcePattern(resourceType=TOPIC, name=connect-, patternType=PREFIXED)`: 
+        (principal=User:CN=connect, host=*, operation=ALL, permissionType=ALLOW) 
+
+Current ACLs for resource `ResourcePattern(resourceType=TOPIC, name=orders, patternType=LITERAL)`: 
+        (principal=User:CN=mirror-maker, host=*, operation=DESCRIBE, permissionType=ALLOW)
+        (principal=User:CN=moderation, host=*, operation=READ, permissionType=ALLOW)
+        (principal=User:CN=connect, host=*, operation=DESCRIBE, permissionType=ALLOW)
+        (principal=User:CN=mirror-maker, host=*, operation=DESCRIBE_CONFIGS, permissionType=ALLOW)
+        (principal=User:CN=client-api, host=*, operation=WRITE, permissionType=ALLOW)
+        (principal=User:CN=mirror-maker, host=*, operation=READ, permissionType=ALLOW)
+        (principal=User:CN=kafka-exporter, host=*, operation=DESCRIBE, permissionType=ALLOW)
+        (principal=User:CN=kafka-ui, host=*, operation=DESCRIBE_CONFIGS, permissionType=ALLOW)
+        (principal=User:CN=moderation, host=*, operation=DESCRIBE, permissionType=ALLOW)
+        (principal=User:CN=kafka-ui, host=*, operation=READ, permissionType=ALLOW)
+        (principal=User:CN=kafka-ui, host=*, operation=DESCRIBE, permissionType=ALLOW)
+        (principal=User:CN=moderation, host=*, operation=CREATE, permissionType=ALLOW)
+        (principal=User:CN=connect, host=*, operation=READ, permissionType=ALLOW)
+        (principal=User:CN=client-api, host=*, operation=DESCRIBE, permissionType=ALLOW) 
+
+Current ACLs for resource `ResourcePattern(resourceType=GROUP, name=connect-, patternType=PREFIXED)`: 
+        (principal=User:CN=kafka-exporter, host=*, operation=DESCRIBE, permissionType=ALLOW)
+        (principal=User:CN=connect, host=*, operation=READ, permissionType=ALLOW)
+        (principal=User:CN=kafka-ui, host=*, operation=DESCRIBE, permissionType=ALLOW)
+        (principal=User:CN=connect, host=*, operation=DESCRIBE, permissionType=ALLOW) 
+
+Current ACLs for resource `ResourcePattern(resourceType=CLUSTER, name=kafka-cluster, patternType=LITERAL)`: 
+        (principal=User:CN=kafka-ui, host=*, operation=DESCRIBE_CONFIGS, permissionType=ALLOW)
+        (principal=User:CN=kafka-ui, host=*, operation=DESCRIBE, permissionType=ALLOW) 
+
+Current ACLs for resource `ResourcePattern(resourceType=TOPIC, name=client-requests, patternType=LITERAL)`: 
+        (principal=User:CN=mirror-maker, host=*, operation=DESCRIBE, permissionType=ALLOW)
+        (principal=User:CN=kafka-ui, host=*, operation=DESCRIBE, permissionType=ALLOW)
+        (principal=User:CN=connect, host=*, operation=DESCRIBE, permissionType=ALLOW)
+        (principal=User:CN=mirror-maker, host=*, operation=DESCRIBE_CONFIGS, permissionType=ALLOW)
+        (principal=User:CN=client-api, host=*, operation=WRITE, permissionType=ALLOW)
+        (principal=User:CN=mirror-maker, host=*, operation=READ, permissionType=ALLOW)
+        (principal=User:CN=kafka-exporter, host=*, operation=DESCRIBE, permissionType=ALLOW)
+        (principal=User:CN=kafka-ui, host=*, operation=DESCRIBE_CONFIGS, permissionType=ALLOW)
+        (principal=User:CN=kafka-ui, host=*, operation=READ, permissionType=ALLOW)
+        (principal=User:CN=connect, host=*, operation=READ, permissionType=ALLOW)
+        (principal=User:CN=client-api, host=*, operation=DESCRIBE, permissionType=ALLOW) 
+
+Current ACLs for resource `ResourcePattern(resourceType=GROUP, name=kafka-ui, patternType=PREFIXED)`: 
+        (principal=User:CN=kafka-ui, host=*, operation=READ, permissionType=ALLOW)
+        (principal=User:CN=kafka-ui, host=*, operation=DESCRIBE, permissionType=ALLOW) 
+
+Current ACLs for resource `ResourcePattern(resourceType=TOPIC, name=shop-products, patternType=LITERAL)`: 
+        (principal=User:CN=mirror-maker, host=*, operation=DESCRIBE, permissionType=ALLOW)
+        (principal=User:CN=moderation, host=*, operation=READ, permissionType=ALLOW)
+        (principal=User:CN=mirror-maker, host=*, operation=DESCRIBE_CONFIGS, permissionType=ALLOW)
+        (principal=User:CN=shop-api, host=*, operation=DESCRIBE, permissionType=ALLOW)
+        (principal=User:CN=kafka-exporter, host=*, operation=DESCRIBE, permissionType=ALLOW)
+        (principal=User:CN=kafka-ui, host=*, operation=DESCRIBE_CONFIGS, permissionType=ALLOW)
+        (principal=User:CN=moderation, host=*, operation=DESCRIBE, permissionType=ALLOW)
+        (principal=User:CN=kafka-ui, host=*, operation=READ, permissionType=ALLOW)
+        (principal=User:CN=kafka-ui, host=*, operation=DESCRIBE, permissionType=ALLOW)
+        (principal=User:CN=moderation, host=*, operation=CREATE, permissionType=ALLOW)
+        (principal=User:CN=mirror-maker, host=*, operation=READ, permissionType=ALLOW)
+        (principal=User:CN=shop-api, host=*, operation=WRITE, permissionType=ALLOW) 
+
+Current ACLs for resource `ResourcePattern(resourceType=TOPIC, name=faust-moderation-, patternType=PREFIXED)`: 
+        (principal=User:CN=moderation, host=*, operation=ALL, permissionType=ALLOW) 
+
+Current ACLs for resource `ResourcePattern(resourceType=GROUP, name=faust-moderation, patternType=PREFIXED)`: 
+        (principal=User:CN=kafka-exporter, host=*, operation=DESCRIBE, permissionType=ALLOW)
+        (principal=User:CN=moderation, host=*, operation=READ, permissionType=ALLOW)
+        (principal=User:CN=kafka-ui, host=*, operation=DESCRIBE, permissionType=ALLOW)
+        (principal=User:CN=moderation, host=*, operation=DESCRIBE, permissionType=ALLOW) 
+
+Current ACLs for resource `ResourcePattern(resourceType=GROUP, name=moderator-, patternType=PREFIXED)`: 
+        (principal=User:CN=moderator, host=*, operation=READ, permissionType=ALLOW)
+        (principal=User:CN=moderator, host=*, operation=DESCRIBE, permissionType=ALLOW) 
+
+Current ACLs for resource `ResourcePattern(resourceType=TOPIC, name=products-filtered, patternType=LITERAL)`: 
+        (principal=User:CN=mirror-maker, host=*, operation=DESCRIBE, permissionType=ALLOW)
+        (principal=User:CN=connect, host=*, operation=DESCRIBE, permissionType=ALLOW)
+        (principal=User:CN=mirror-maker, host=*, operation=DESCRIBE_CONFIGS, permissionType=ALLOW)
+        (principal=User:CN=mirror-maker, host=*, operation=READ, permissionType=ALLOW)
+        (principal=User:CN=connect, host=*, operation=READ, permissionType=ALLOW)
+        (principal=User:CN=moderation, host=*, operation=WRITE, permissionType=ALLOW)
+        (principal=User:CN=kafka-exporter, host=*, operation=DESCRIBE, permissionType=ALLOW)
+        (principal=User:CN=kafka-ui, host=*, operation=DESCRIBE_CONFIGS, permissionType=ALLOW)
+        (principal=User:CN=moderation, host=*, operation=DESCRIBE, permissionType=ALLOW)
+        (principal=User:CN=kafka-ui, host=*, operation=READ, permissionType=ALLOW)
+        (principal=User:CN=kafka-ui, host=*, operation=DESCRIBE, permissionType=ALLOW)
+        (principal=User:CN=moderation, host=*, operation=CREATE, permissionType=ALLOW) 
+
+Current ACLs for resource `ResourcePattern(resourceType=TOPIC, name=shop-products-dlq, patternType=LITERAL)`: 
+        (principal=User:CN=moderation, host=*, operation=WRITE, permissionType=ALLOW)
+        (principal=User:CN=kafka-exporter, host=*, operation=DESCRIBE, permissionType=ALLOW)
+        (principal=User:CN=kafka-ui, host=*, operation=DESCRIBE_CONFIGS, permissionType=ALLOW)
+        (principal=User:CN=moderation, host=*, operation=DESCRIBE, permissionType=ALLOW)
+        (principal=User:CN=kafka-ui, host=*, operation=READ, permissionType=ALLOW)
+        (principal=User:CN=kafka-ui, host=*, operation=DESCRIBE, permissionType=ALLOW)
+        (principal=User:CN=moderation, host=*, operation=CREATE, permissionType=ALLOW) 
+
+Current ACLs for resource `ResourcePattern(resourceType=TOPIC, name=banned-products, patternType=LITERAL)`: 
+        (principal=User:CN=moderator, host=*, operation=WRITE, permissionType=ALLOW)
+        (principal=User:CN=moderation, host=*, operation=READ, permissionType=ALLOW)
+        (principal=User:CN=moderator, host=*, operation=READ, permissionType=ALLOW)
+        (principal=User:CN=kafka-exporter, host=*, operation=DESCRIBE, permissionType=ALLOW)
+        (principal=User:CN=moderation, host=*, operation=DESCRIBE, permissionType=ALLOW)
+        (principal=User:CN=kafka-ui, host=*, operation=READ, permissionType=ALLOW)
+        (principal=User:CN=kafka-ui, host=*, operation=DESCRIBE, permissionType=ALLOW)
+        (principal=User:CN=moderation, host=*, operation=CREATE, permissionType=ALLOW)
+        (principal=User:CN=moderator, host=*, operation=DESCRIBE, permissionType=ALLOW)
+        (principal=User:CN=kafka-ui, host=*, operation=DESCRIBE_CONFIGS, permissionType=ALLOW) 
+
+Current ACLs for resource `ResourcePattern(resourceType=TOPIC, name=recommendations, patternType=LITERAL)`: 
+        (principal=User:CN=kafka-ui, host=*, operation=DESCRIBE, permissionType=ALLOW)
+        (principal=User:CN=connect, host=*, operation=DESCRIBE, permissionType=ALLOW)
+        (principal=User:CN=analytics, host=*, operation=WRITE, permissionType=ALLOW)
+        (principal=User:CN=connect, host=*, operation=READ, permissionType=ALLOW)
+        (principal=User:CN=analytics, host=*, operation=DESCRIBE, permissionType=ALLOW)
+        (principal=User:CN=kafka-exporter, host=*, operation=DESCRIBE, permissionType=ALLOW)
+        (principal=User:CN=kafka-ui, host=*, operation=DESCRIBE_CONFIGS, permissionType=ALLOW)
+        (principal=User:CN=kafka-ui, host=*, operation=READ, permissionType=ALLOW) 
+
+== ACL аналитического кластера
+== MirrorMaker 2
+== Spark
+== Kafka Exporter
+== Kafka UI
+
+== Итог: ACL аналитического кластера
+Current ACLs for resource `ResourcePattern(resourceType=TOPIC, name=primary., patternType=PREFIXED)`: 
+        (principal=User:CN=analytics, host=*, operation=READ, permissionType=ALLOW)
+        (principal=User:CN=mirror-maker, host=*, operation=DESCRIBE, permissionType=ALLOW)
+        (principal=User:CN=kafka-ui, host=*, operation=DESCRIBE, permissionType=ALLOW)
+        (principal=User:CN=mirror-maker, host=*, operation=WRITE, permissionType=ALLOW)
+        (principal=User:CN=mirror-maker, host=*, operation=DESCRIBE_CONFIGS, permissionType=ALLOW)
+        (principal=User:CN=mirror-maker, host=*, operation=READ, permissionType=ALLOW)
+        (principal=User:CN=mirror-maker, host=*, operation=ALTER, permissionType=ALLOW)
+        (principal=User:CN=analytics, host=*, operation=DESCRIBE, permissionType=ALLOW)
+        (principal=User:CN=kafka-exporter, host=*, operation=DESCRIBE, permissionType=ALLOW)
+        (principal=User:CN=kafka-ui, host=*, operation=DESCRIBE_CONFIGS, permissionType=ALLOW)
+        (principal=User:CN=kafka-ui, host=*, operation=READ, permissionType=ALLOW) 
+
+Current ACLs for resource `ResourcePattern(resourceType=CLUSTER, name=kafka-cluster, patternType=LITERAL)`: 
+        (principal=User:CN=mirror-maker, host=*, operation=CREATE, permissionType=ALLOW)
+        (principal=User:CN=kafka-ui, host=*, operation=DESCRIBE, permissionType=ALLOW)
+        (principal=User:CN=kafka-ui, host=*, operation=DESCRIBE_CONFIGS, permissionType=ALLOW) 
+
+Current ACLs for resource `ResourcePattern(resourceType=GROUP, name=kafka-ui, patternType=PREFIXED)`: 
+        (principal=User:CN=kafka-ui, host=*, operation=READ, permissionType=ALLOW)
+        (principal=User:CN=kafka-ui, host=*, operation=DESCRIBE, permissionType=ALLOW) 
+
+Current ACLs for resource `ResourcePattern(resourceType=GROUP, name=spark-kafka-source, patternType=PREFIXED)`: 
+        (principal=User:CN=analytics, host=*, operation=DESCRIBE, permissionType=ALLOW)
+        (principal=User:CN=analytics, host=*, operation=READ, permissionType=ALLOW) 
+
+
+== ACL успешно применены
+
+==== 4/6 Остальные сервисы (первый запуск занимает несколько минут)
+[+] Running 26/26
+ ✔ Container namenode                  Healthy                                                                                                                                                                                36.0s 
+ ✔ Container alertmanager              Healthy                                                                                                                                                                                36.0s 
+ ✔ Container alert-webhook             Healthy                                                                                                                                                                                36.0s 
+ ✔ Container prometheus                Healthy                                                                                                                                                                                36.0s 
+ ✔ Container elasticsearch             Healthy                                                                                                                                                                                36.0s 
+ ✔ Container kafka-b2                  Healthy                                                                                                                                                                                36.0s 
+ ✔ Container kafka-2                   Healthy                                                                                                                                                                                36.0s 
+ ✔ Container kafka-tools               Healthy                                                                                                                                                                                36.0s 
+ ✔ Container kafka-1                   Healthy                                                                                                                                                                                36.0s 
+ ✔ Container kafka-b3                  Healthy                                                                                                                                                                                36.0s 
+ ✔ Container kafka-b1                  Healthy                                                                                                                                                                                36.0s 
+ ✔ Container kafka-3                   Healthy                                                                                                                                                                                36.0s 
+ ✔ Container faust-moderation          Healthy                                                                                                                                                                                36.0s 
+ ✔ Container kafka-ui                  Healthy                                                                                                                                                                                36.0s 
+ ✔ Container mirror-maker              Healthy                                                                                                                                                                                36.0s 
+ ✔ Container kafka-exporter-analytics  Healthy                                                                                                                                                                                36.0s 
+ ✔ Container kafka-exporter-primary    Healthy                                                                                                                                                                                36.0s 
+ ✔ Container kafka-connect             Healthy                                                                                                                                                                                47.3s 
+ ✔ Container grafana                   Healthy                                                                                                                                                                                35.7s 
+ ✔ Container shop-api-cli              Healthy                                                                                                                                                                                35.8s 
+ ✔ Container moderator-cli             Healthy                                                                                                                                                                                35.7s 
+ ✔ Container client-api-cli            Healthy                                                                                                                                                                                35.7s 
+ ✔ Container datanode                  Healthy                                                                                                                                                                                35.7s 
+ ✔ Container spark-master              Healthy                                                                                                                                                                                35.6s 
+ ✔ Container spark-worker              Healthy                                                                                                                                                                                35.5s 
+ ✔ Container spark-ingest              Healthy                                                                                                                                                                                67.4s 
+
+==== 5/6 Хранилище: Elasticsearch и коннекторы
+  ждём: Elasticsearch — готово (0 с)
+  роли и пользователи
+  [+] роли marketplace_writer / marketplace_reader, пользователи kafka_connect / client_api
+  [=] индекс client-requests уже существует
+  [=] индекс orders уже существует
+  [=] индекс products-filtered уже существует
+  [=] индекс recommendations уже существует
+
+  ожидание Kafka Connect REST API
+  [ok] Kafka Connect REST API доступен (0 с)
+
+  регистрация коннекторов
+  регистрируем: elasticsearch-sink
+  [+] Коннектор elasticsearch-sink зарегистрирован
+  регистрируем: file-sink
+  [+] Коннектор file-sink зарегистрирован
+
+  ожидание запуска коннекторов
+
+  ждём: elasticsearch-sink
+  [ok] elasticsearch-sink: RUNNING (0 с)
+
+  ждём: file-sink
+  [ok] file-sink: RUNNING (0 с)
+
+  [+] Все коннекторы успешно запущены
+
+
+==== 6/6 Начальный список запрещённых товаров
+2026-11-24 18:07:54,936 | INFO    | banned-products | Загрузка 3 позиций из data/banned-products.json
+%4|1795543674.969|GETPID|moderator#producer-1| [thrd:main]: Failed to acquire idempotence PID from broker ssl://kafka-2:19092/2: Broker: Coordinator load in progress: retrying
+2026-11-24 18:07:55,494 | INFO    | banned-products | Товар 90001 добавлен в список запрещённых (причина: Табачная и никотиносодержащая продукция)
+2026-11-24 18:07:55,494 | INFO    | banned-products | Товар 90002 добавлен в список запрещённых (причина: Оружие и его копии)
+2026-11-24 18:07:55,494 | INFO    | banned-products | Товар 90003 добавлен в список запрещённых (причина: Пиротехника классов F3-F4)
+
+Платформа запущена. Все адреса доступны только с этой машины (BIND_ADDRESS=127.0.0.1).
+  Kafka UI ............ http://localhost:8080   (admin / KAFKA_UI_PASSWORD из .env)
+  Grafana ............. http://localhost:3000   (admin / GRAFANA_ADMIN_PASSWORD из .env)
+  Prometheus .......... http://localhost:9090/alerts
+  Alertmanager ........ http://localhost:9099
+  Kafka Connect ....... http://localhost:8083/connectors
+  Elasticsearch ....... http://localhost:9200   (elastic / ELASTIC_PASSWORD из .env)
+  HDFS NameNode ....... http://localhost:9870
+  Spark Master ........ http://localhost:8090
+
+Дальше:
+  bash scripts/demo.sh             # сквозной сценарий
+  bash scripts/check-security.sh   # проверка TLS и ACL
+  bash cli.sh help                 # команды SHOP API / CLIENT API / списка запрещённых товаров
+
+DAS@DESKTOP-20TD790 MINGW64 ~/Desktop/kafka-final-project (main)
+$ bash scripts/demo.sh
+
+==== 1. Текущий список запрещённых товаров
+
+Запрещённых товаров: 3
+  90001      Табачная и никотиносодержащая продукция       с 2026-11-24T18:07:54+00:00
+  90002      Оружие и его копии                            с 2026-11-24T18:07:54+00:00
+  90003      Пиротехника классов F3-F4                     с 2026-11-24T18:07:54+00:00
+
+==== 2. SHOP API: магазины отправляют 20 товаров из data/products.json (+1 битое сообщение)
+2026-11-24 18:11:37,209 | INFO    | shop-api | Отправка 20 товаров из data/products.json в топик shop-products
+2026-11-24 18:11:37,209 | INFO    | shop-api | -> 12345 | Умные часы XYZ | магазин store_001
+2026-11-24 18:11:37,209 | INFO    | shop-api | -> 12346 | Умные часы XYZ Pro | магазин store_001
+2026-11-24 18:11:37,209 | INFO    | shop-api | -> 12347 | Фитнес-браслет Pulse 3 | магазин store_002
+2026-11-24 18:11:37,209 | INFO    | shop-api | -> 12348 | Беспроводные наушники SoundMax | магазин store_002
+2026-11-24 18:11:37,209 | INFO    | shop-api | -> 12349 | Наушники-вкладыши SoundMax Mini | магазин store_003
+2026-11-24 18:11:37,209 | INFO    | shop-api | -> 12350 | Смартфон Nova 12 | магазин store_001
+2026-11-24 18:11:37,209 | INFO    | shop-api | -> 22001 | Кроссовки беговые AirRun | магазин store_004
+2026-11-24 18:11:37,209 | INFO    | shop-api | -> 22002 | Кроссовки трейловые AirRun Trail | магазин store_004
+2026-11-24 18:11:37,209 | INFO    | shop-api | -> 22003 | Коврик для йоги FlexMat | магазин store_005
+2026-11-24 18:11:37,209 | INFO    | shop-api | -> 22004 | Гантели разборные PowerSet 20 кг | магазин store_005
+2026-11-24 18:11:37,209 | INFO    | shop-api | -> 33001 | Робот-пылесос CleanBot S5 | магазин store_003
+2026-11-24 18:11:37,209 | INFO    | shop-api | -> 33002 | Кофемашина BaristaHome | магазин store_003
+2026-11-24 18:11:37,209 | INFO    | shop-api | -> 33003 | Электрочайник Smart Kettle | магазин store_002
+2026-11-24 18:11:37,209 | INFO    | shop-api | -> 44001 | Куртка демисезонная NorthWay | магазин store_006
+2026-11-24 18:11:37,209 | INFO    | shop-api | -> 44002 | Худи базовое CityStyle | магазин store_006
+2026-11-24 18:11:37,210 | INFO    | shop-api | -> 55001 | Книга «Kafka: подробное руководство» | магазин store_007
+2026-11-24 18:11:37,210 | INFO    | shop-api | -> 55002 | Книга «Высоконагруженные приложения» | магазин store_007
+2026-11-24 18:11:37,210 | INFO    | shop-api | -> 90001 | Электронная сигарета VapeCloud | магазин store_008
+2026-11-24 18:11:37,210 | INFO    | shop-api | -> 90002 | Пневматический пистолет Striker | магазин store_008
+2026-11-24 18:11:37,210 | INFO    | shop-api | -> 90003 | Фейерверк «Салют 100 залпов» | магазин store_009
+2026-11-24 18:11:37,210 | WARNING | shop-api | -> broken-1 | намеренно битое сообщение
+%4|1795543897.220|GETPID|shop-api#producer-1| [thrd:main]: Failed to acquire idempotence PID from broker ssl://kafka-1:19092/1: Broker: Coordinator load in progress: retrying
+2026-11-24 18:11:37,832 | INFO    | shop-api | Итог: поставлено в очередь=21, подтверждено брокером=21, не доставлено=0, пропущено при валидации=0
+  ждём: в Elasticsearch 17 разрешённых товаров........................................ — не дождались за 120 с

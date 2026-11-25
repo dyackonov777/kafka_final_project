@@ -1,0 +1,68 @@
+# Prometheus JMX Exporter (java-агент) для брокеров Kafka.
+# Правила проверяются по порядку, срабатывает первое подходящее.
+# Строка для сопоставления: domain<key=value, ...><>attribute: value
+lowercaseOutputName: true
+lowercaseOutputLabelNames: true
+
+rules:
+  # --- Трафик по топикам: kafka_server_brokertopicmetrics_{messagesin,bytesin,bytesout,...}_total{topic} ---
+  - pattern: 'kafka.server<type=BrokerTopicMetrics, name=([A-Za-z]+)PerSec, topic=([^>]+)><>Count'
+    name: kafka_server_brokertopicmetrics_$1_total
+    type: COUNTER
+    labels:
+      topic: "$2"
+
+  # --- Трафик брокера целиком (без метки topic) ---
+  - pattern: 'kafka.server<type=BrokerTopicMetrics, name=([A-Za-z]+)PerSec><>Count'
+    name: kafka_server_brokertopicmetrics_$1_total
+    type: COUNTER
+
+  # --- Репликация: under-replicated, under-min-isr, число партиций и лидеров ---
+  - pattern: 'kafka.server<type=ReplicaManager, name=([A-Za-z]+)PerSec><>Count'
+    name: kafka_server_replicamanager_$1_total
+    type: COUNTER
+  - pattern: 'kafka.server<type=ReplicaManager, name=([A-Za-z]+)><>Value'
+    name: kafka_server_replicamanager_$1
+    type: GAUGE
+
+  # --- Контроллер KRaft: активный контроллер, offline-партиции, число топиков/партиций ---
+  - pattern: 'kafka.controller<type=KafkaController, name=([A-Za-z]+)><>Value'
+    name: kafka_controller_kafkacontroller_$1
+    type: GAUGE
+
+  # --- Задержка обработки запросов (перцентили) ---
+  - pattern: 'kafka.network<type=RequestMetrics, name=TotalTimeMs, request=(Produce|FetchConsumer|FetchFollower)><>(50|99)thPercentile'
+    name: kafka_network_requestmetrics_totaltimems
+    type: GAUGE
+    labels:
+      request: "$1"
+      quantile: "0.$2"
+
+  # --- Число запросов по типам (MBean разбит по версиям протокола — версию сохраняем в метке) ---
+  - pattern: 'kafka.network<type=RequestMetrics, name=RequestsPerSec, request=(Produce|FetchConsumer|FetchFollower|Metadata|OffsetCommit), version=([0-9]+)><>Count'
+    name: kafka_network_requestmetrics_requests_total
+    type: COUNTER
+    labels:
+      request: "$1"
+      version: "$2"
+
+  # --- Загрузка обработчиков запросов и сетевых потоков (1.0 = простаивают) ---
+  - pattern: 'kafka.server<type=KafkaRequestHandlerPool, name=RequestHandlerAvgIdlePercent><>OneMinuteRate'
+    name: kafka_server_kafkarequesthandlerpool_requesthandleravgidlepercent
+    type: GAUGE
+  - pattern: 'kafka.network<type=SocketServer, name=NetworkProcessorAvgIdlePercent><>Value'
+    name: kafka_network_socketserver_networkprocessoravgidlepercent
+    type: GAUGE
+
+  # --- Размер логов по топикам ---
+  - pattern: 'kafka.log<type=Log, name=Size, topic=([^,]+), partition=([0-9]+)><>Value'
+    name: kafka_log_log_size
+    type: GAUGE
+    labels:
+      topic: "$1"
+      partition: "$2"
+
+  # --- Группы потребителей на координаторе ---
+  - pattern: 'kafka.coordinator.group<type=GroupMetadataManager, name=(NumGroups|NumOffsets)><>Value'
+    name: kafka_coordinator_group_groupmetadatamanager_$1
+    type: GAUGE

@@ -1,0 +1,130 @@
+groups:
+  - name: kafka-availability
+    rules:
+      # Главный алерт задания: падение брокера.
+      # Брокер остановлен -> JMX Exporter не отвечает -> up == 0.
+      - alert: KafkaBrokerDown
+        expr: up{job="kafka-primary"} == 0
+        for: 30s
+        labels:
+          severity: critical
+        annotations:
+          summary: "Брокер {{ $labels.broker }} основного кластера недоступен"
+          description: "Prometheus не может получить метрики {{ $labels.instance }} больше 30 секунд."
+
+      - alert: KafkaBrokersMissing
+        expr: sum(up{job="kafka-primary"}) < 3
+        for: 30s
+        labels:
+          severity: critical
+        annotations:
+          summary: "В основном кластере работает {{ $value }} из 3 брокеров"
+          description: "При двух брокерах запись с acks=all ещё работает (min.insync.replicas=2), при одном — остановится."
+
+      - alert: KafkaAnalyticsBrokerDown
+        expr: up{job="kafka-analytics"} == 0
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Брокер {{ $labels.broker }} аналитического кластера недоступен"
+          description: "Дублирование MirrorMaker 2 работает, пока доступны 2 из 3 брокеров analytics."
+
+  - name: kafka-replication
+    rules:
+      - alert: KafkaUnderReplicatedPartitions
+        expr: sum(kafka_server_replicamanager_underreplicatedpartitions{job="kafka-primary"}) > 0
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Есть недореплицированные партиции: {{ $value }}"
+          description: "Часть реплик отстаёт или брокер недоступен."
+
+      - alert: KafkaUnderMinIsrPartitions
+        expr: sum(kafka_server_replicamanager_underminisrpartitioncount{job="kafka-primary"}) > 0
+        for: 30s
+        labels:
+          severity: critical
+        annotations:
+          summary: "Партиции ниже min.insync.replicas: {{ $value }}"
+          description: "Продюсеры с acks=all получают NOT_ENOUGH_REPLICAS — запись в эти партиции невозможна."
+
+      - alert: KafkaOfflinePartitions
+        expr: max(kafka_controller_kafkacontroller_offlinepartitionscount{job="kafka-primary"}) > 0
+        for: 30s
+        labels:
+          severity: critical
+        annotations:
+          summary: "Партиции без лидера: {{ $value }}"
+          description: "Данные этих партиций недоступны ни для чтения, ни для записи."
+
+      - alert: KafkaNoActiveController
+        expr: sum(kafka_controller_kafkacontroller_activecontrollercount{job="kafka-primary"}) != 1
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Число активных контроллеров KRaft = {{ $value }} (ожидается 1)"
+          description: "Кворум контроллеров потерян или произошёл split-brain."
+
+  - name: consumers-and-integrations
+    rules:
+      # Отставание потребителей основного кластера (Faust, коннекторы)
+      - alert: KafkaConsumerLagHigh
+        expr: sum by (consumergroup) (kafka_consumergroup_lag{job="kafka-exporter-primary"}) > 100
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Группа {{ $labels.consumergroup }} отстаёт на {{ $value }} сообщений"
+          description: "Обработчик не успевает за входящим потоком или остановлен."
+
+      # Отставание MirrorMaker 2: сообщений в оригинале больше, чем в копии
+      - alert: MirrorMakerLagHigh
+        expr: |
+          sum by (topic) (kafka_topic_partition_current_offset{job="kafka-exporter-primary", topic=~"shop-products|products-filtered|client-requests|orders"})
+          - on (topic) sum by (topic) (label_replace(kafka_topic_partition_current_offset{job="kafka-exporter-analytics"}, "topic", "$1", "topic", "primary[.](.*)"))
+          > 50
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Копия топика {{ $labels.topic }} в analytics отстаёт на {{ $value }} сообщений"
+          description: "Проверьте сервис mirror-maker."
+
+      - alert: FaustModerationDown
+        expr: up{job="faust-moderation"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Потоковый фильтр Faust недоступен"
+          description: "Новые товары не проходят проверку и не попадают в products-filtered."
+
+      - alert: KafkaConnectDown
+        expr: up{job="kafka-connect"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Kafka Connect недоступен"
+          description: "Данные не записываются в Elasticsearch и файл."
+
+      - alert: KafkaConnectorNotRunning
+        expr: max by (connector, status) (kafka_connect_connector_status{status!="running"}) == 1
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Коннектор {{ $labels.connector }} в состоянии {{ $labels.status }}"
+          description: "curl localhost:8083/connectors/{{ $labels.connector }}/status"
+
+      - alert: KafkaConnectTaskFailed
+        expr: max by (connector, task) (kafka_connect_task_status{status="failed"}) == 1
+        for: 30s
+        labels:
+          severity: critical
+        annotations:
+          summary: "Задача {{ $labels.task }} коннектора {{ $labels.connector }} упала"
+          description: "Перезапуск: curl -X POST localhost:8083/connectors/{{ $labels.connector }}/tasks/{{ $labels.task }}/restart"

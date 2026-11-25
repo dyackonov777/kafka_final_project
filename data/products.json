@@ -1,0 +1,788 @@
+[
+  {
+    "product_id": "12345",
+    "name": "Умные часы XYZ",
+    "description": "Умные часы с функцией мониторинга здоровья, GPS и уведомлениями.",
+    "price": {
+      "amount": 4999.99,
+      "currency": "RUB"
+    },
+    "category": "Электроника",
+    "brand": "XYZ",
+    "stock": {
+      "available": 150,
+      "reserved": 20
+    },
+    "sku": "XYZ-12345",
+    "tags": [
+      "умные часы",
+      "гаджеты",
+      "технологии"
+    ],
+    "images": [
+      {
+        "url": "https://example.com/images/12345.jpg",
+        "alt": "Умные часы XYZ - вид спереди"
+      },
+      {
+        "url": "https://example.com/images/12345_side.jpg",
+        "alt": "Умные часы XYZ - вид сбоку"
+      }
+    ],
+    "specifications": {
+      "weight": "50g",
+      "dimensions": "42mm x 36mm x 10mm",
+      "battery_life": "24 hours",
+      "water_resistance": "IP68"
+    },
+    "created_at": "2023-10-01T12:00:00Z",
+    "updated_at": "2023-10-10T15:30:00Z",
+    "index": "products",
+    "store_id": "store_001"
+  },
+  {
+    "product_id": "12346",
+    "name": "Умные часы XYZ Pro",
+    "description": "Флагманские умные часы: ЭКГ, пульсоксиметр, AMOLED-экран, eSIM.",
+    "price": {
+      "amount": 12999.0,
+      "currency": "RUB"
+    },
+    "category": "Электроника",
+    "brand": "XYZ",
+    "stock": {
+      "available": 60,
+      "reserved": 5
+    },
+    "sku": "XYZ-12346",
+    "tags": [
+      "умные часы",
+      "гаджеты",
+      "премиум"
+    ],
+    "images": [
+      {
+        "url": "https://example.com/images/12346.jpg",
+        "alt": "Умные часы XYZ Pro - вид спереди"
+      },
+      {
+        "url": "https://example.com/images/12346_side.jpg",
+        "alt": "Умные часы XYZ Pro - вид сбоку"
+      }
+    ],
+    "specifications": {
+      "weight": "55g",
+      "dimensions": "45mm x 38mm x 11mm",
+      "battery_life": "48 hours",
+      "water_resistance": "5ATM"
+    },
+    "created_at": "2023-10-02T09:00:00Z",
+    "updated_at": "2023-10-12T10:00:00Z",
+    "index": "products",
+    "store_id": "store_001"
+  },
+  {
+    "product_id": "12347",
+    "name": "Фитнес-браслет Pulse 3",
+    "description": "Лёгкий браслет: шаги, сон, пульс, уведомления со смартфона.",
+    "price": {
+      "amount": 2490.0,
+      "currency": "RUB"
+    },
+    "category": "Электроника",
+    "brand": "Pulse",
+    "stock": {
+      "available": 300,
+      "reserved": 40
+    },
+    "sku": "PLS-3",
+    "tags": [
+      "фитнес",
+      "гаджеты",
+      "здоровье"
+    ],
+    "images": [
+      {
+        "url": "https://example.com/images/12347.jpg",
+        "alt": "Фитнес-браслет Pulse 3 - вид спереди"
+      },
+      {
+        "url": "https://example.com/images/12347_side.jpg",
+        "alt": "Фитнес-браслет Pulse 3 - вид сбоку"
+      }
+    ],
+    "specifications": {
+      "weight": "25g",
+      "battery_life": "14 days",
+      "water_resistance": "IP68"
+    },
+    "created_at": "2023-09-20T08:00:00Z",
+    "updated_at": "2023-10-05T08:00:00Z",
+    "index": "products",
+    "store_id": "store_002"
+  },
+  {
+    "product_id": "12348",
+    "name": "Беспроводные наушники SoundMax",
+    "description": "Наушники с активным шумоподавлением и временем работы до 30 часов.",
+    "price": {
+      "amount": 6990.0,
+      "currency": "RUB"
+    },
+    "category": "Электроника",
+    "brand": "SoundMax",
+    "stock": {
+      "available": 120,
+      "reserved": 10
+    },
+    "sku": "SMX-ANC",
+    "tags": [
+      "наушники",
+      "аудио",
+      "гаджеты"
+    ],
+    "images": [
+      {
+        "url": "https://example.com/images/12348.jpg",
+        "alt": "Беспроводные наушники SoundMax - вид спереди"
+      },
+      {
+        "url": "https://example.com/images/12348_side.jpg",
+        "alt": "Беспроводные наушники SoundMax - вид сбоку"
+      }
+    ],
+    "specifications": {
+      "weight": "250g",
+      "battery_life": "30 hours",
+      "bluetooth": "5.3"
+    },
+    "created_at": "2023-08-15T10:00:00Z",
+    "updated_at": "2023-10-01T12:00:00Z",
+    "index": "products",
+    "store_id": "store_002"
+  },
+  {
+    "product_id": "12349",
+    "name": "Наушники-вкладыши SoundMax Mini",
+    "description": "Компактные TWS-наушники с зарядным кейсом.",
+    "price": {
+      "amount": 2990.0,
+      "currency": "RUB"
+    },
+    "category": "Электроника",
+    "brand": "SoundMax",
+    "stock": {
+      "available": 400,
+      "reserved": 30
+    },
+    "sku": "SMX-MINI",
+    "tags": [
+      "наушники",
+      "аудио"
+    ],
+    "images": [
+      {
+        "url": "https://example.com/images/12349.jpg",
+        "alt": "Наушники-вкладыши SoundMax Mini - вид спереди"
+      },
+      {
+        "url": "https://example.com/images/12349_side.jpg",
+        "alt": "Наушники-вкладыши SoundMax Mini - вид сбоку"
+      }
+    ],
+    "specifications": {
+      "weight": "45g",
+      "battery_life": "6 hours",
+      "bluetooth": "5.2"
+    },
+    "created_at": "2023-08-20T10:00:00Z",
+    "updated_at": "2023-09-30T12:00:00Z",
+    "index": "products",
+    "store_id": "store_003"
+  },
+  {
+    "product_id": "12350",
+    "name": "Смартфон Nova 12",
+    "description": "Смартфон с экраном 6.5\", камерой 108 Мп и аккумулятором 5000 мАч.",
+    "price": {
+      "amount": 24990.0,
+      "currency": "RUB"
+    },
+    "category": "Электроника",
+    "brand": "Nova",
+    "stock": {
+      "available": 80,
+      "reserved": 12
+    },
+    "sku": "NOVA-12",
+    "tags": [
+      "смартфон",
+      "гаджеты",
+      "технологии"
+    ],
+    "images": [
+      {
+        "url": "https://example.com/images/12350.jpg",
+        "alt": "Смартфон Nova 12 - вид спереди"
+      },
+      {
+        "url": "https://example.com/images/12350_side.jpg",
+        "alt": "Смартфон Nova 12 - вид сбоку"
+      }
+    ],
+    "specifications": {
+      "weight": "190g",
+      "dimensions": "162mm x 75mm x 8mm",
+      "memory": "256GB"
+    },
+    "created_at": "2023-09-01T10:00:00Z",
+    "updated_at": "2023-10-11T09:00:00Z",
+    "index": "products",
+    "store_id": "store_001"
+  },
+  {
+    "product_id": "22001",
+    "name": "Кроссовки беговые AirRun",
+    "description": "Лёгкие беговые кроссовки с амортизирующей подошвой.",
+    "price": {
+      "amount": 7490.0,
+      "currency": "RUB"
+    },
+    "category": "Спорт",
+    "brand": "AirRun",
+    "stock": {
+      "available": 90,
+      "reserved": 15
+    },
+    "sku": "AR-RUN-42",
+    "tags": [
+      "кроссовки",
+      "бег",
+      "спорт"
+    ],
+    "images": [
+      {
+        "url": "https://example.com/images/22001.jpg",
+        "alt": "Кроссовки беговые AirRun - вид спереди"
+      },
+      {
+        "url": "https://example.com/images/22001_side.jpg",
+        "alt": "Кроссовки беговые AirRun - вид сбоку"
+      }
+    ],
+    "specifications": {
+      "weight": "280g",
+      "material": "сетка",
+      "sole": "EVA"
+    },
+    "created_at": "2023-07-10T10:00:00Z",
+    "updated_at": "2023-10-03T10:00:00Z",
+    "index": "products",
+    "store_id": "store_004"
+  },
+  {
+    "product_id": "22002",
+    "name": "Кроссовки трейловые AirRun Trail",
+    "description": "Кроссовки для бега по пересечённой местности, защита носка.",
+    "price": {
+      "amount": 8990.0,
+      "currency": "RUB"
+    },
+    "category": "Спорт",
+    "brand": "AirRun",
+    "stock": {
+      "available": 45,
+      "reserved": 3
+    },
+    "sku": "AR-TRAIL",
+    "tags": [
+      "кроссовки",
+      "бег",
+      "туризм"
+    ],
+    "images": [
+      {
+        "url": "https://example.com/images/22002.jpg",
+        "alt": "Кроссовки трейловые AirRun Trail - вид спереди"
+      },
+      {
+        "url": "https://example.com/images/22002_side.jpg",
+        "alt": "Кроссовки трейловые AirRun Trail - вид сбоку"
+      }
+    ],
+    "specifications": {
+      "weight": "320g",
+      "material": "текстиль",
+      "sole": "Vibram"
+    },
+    "created_at": "2023-07-12T10:00:00Z",
+    "updated_at": "2023-10-03T10:00:00Z",
+    "index": "products",
+    "store_id": "store_004"
+  },
+  {
+    "product_id": "22003",
+    "name": "Коврик для йоги FlexMat",
+    "description": "Нескользящий коврик толщиной 6 мм с ремнём для переноски.",
+    "price": {
+      "amount": 1990.0,
+      "currency": "RUB"
+    },
+    "category": "Спорт",
+    "brand": "FlexMat",
+    "stock": {
+      "available": 200,
+      "reserved": 0
+    },
+    "sku": "FM-YOGA-6",
+    "tags": [
+      "йога",
+      "фитнес",
+      "спорт"
+    ],
+    "images": [
+      {
+        "url": "https://example.com/images/22003.jpg",
+        "alt": "Коврик для йоги FlexMat - вид спереди"
+      },
+      {
+        "url": "https://example.com/images/22003_side.jpg",
+        "alt": "Коврик для йоги FlexMat - вид сбоку"
+      }
+    ],
+    "specifications": {
+      "dimensions": "183cm x 61cm x 6mm",
+      "material": "TPE"
+    },
+    "created_at": "2023-06-01T10:00:00Z",
+    "updated_at": "2023-09-15T10:00:00Z",
+    "index": "products",
+    "store_id": "store_005"
+  },
+  {
+    "product_id": "22004",
+    "name": "Гантели разборные PowerSet 20 кг",
+    "description": "Набор разборных гантелей с хромированными грифами.",
+    "price": {
+      "amount": 5490.0,
+      "currency": "RUB"
+    },
+    "category": "Спорт",
+    "brand": "PowerSet",
+    "stock": {
+      "available": 35,
+      "reserved": 2
+    },
+    "sku": "PS-20",
+    "tags": [
+      "гантели",
+      "фитнес",
+      "спорт"
+    ],
+    "images": [
+      {
+        "url": "https://example.com/images/22004.jpg",
+        "alt": "Гантели разборные PowerSet 20 кг - вид спереди"
+      },
+      {
+        "url": "https://example.com/images/22004_side.jpg",
+        "alt": "Гантели разборные PowerSet 20 кг - вид сбоку"
+      }
+    ],
+    "specifications": {
+      "weight": "20kg",
+      "material": "чугун"
+    },
+    "created_at": "2023-06-05T10:00:00Z",
+    "updated_at": "2023-09-20T10:00:00Z",
+    "index": "products",
+    "store_id": "store_005"
+  },
+  {
+    "product_id": "33001",
+    "name": "Робот-пылесос CleanBot S5",
+    "description": "Робот-пылесос с лидаром, влажной уборкой и управлением со смартфона.",
+    "price": {
+      "amount": 19990.0,
+      "currency": "RUB"
+    },
+    "category": "Бытовая техника",
+    "brand": "CleanBot",
+    "stock": {
+      "available": 50,
+      "reserved": 8
+    },
+    "sku": "CB-S5",
+    "tags": [
+      "пылесос",
+      "умный дом",
+      "уборка"
+    ],
+    "images": [
+      {
+        "url": "https://example.com/images/33001.jpg",
+        "alt": "Робот-пылесос CleanBot S5 - вид спереди"
+      },
+      {
+        "url": "https://example.com/images/33001_side.jpg",
+        "alt": "Робот-пылесос CleanBot S5 - вид сбоку"
+      }
+    ],
+    "specifications": {
+      "battery_life": "150 min",
+      "suction": "4000Pa",
+      "noise": "65dB"
+    },
+    "created_at": "2023-09-10T10:00:00Z",
+    "updated_at": "2023-10-08T10:00:00Z",
+    "index": "products",
+    "store_id": "store_003"
+  },
+  {
+    "product_id": "33002",
+    "name": "Кофемашина BaristaHome",
+    "description": "Автоматическая кофемашина с капучинатором и 15 бар давления.",
+    "price": {
+      "amount": 29990.0,
+      "currency": "RUB"
+    },
+    "category": "Бытовая техника",
+    "brand": "BaristaHome",
+    "stock": {
+      "available": 25,
+      "reserved": 4
+    },
+    "sku": "BH-AUTO",
+    "tags": [
+      "кофе",
+      "кухня"
+    ],
+    "images": [
+      {
+        "url": "https://example.com/images/33002.jpg",
+        "alt": "Кофемашина BaristaHome - вид спереди"
+      },
+      {
+        "url": "https://example.com/images/33002_side.jpg",
+        "alt": "Кофемашина BaristaHome - вид сбоку"
+      }
+    ],
+    "specifications": {
+      "pressure": "15 bar",
+      "water_tank": "1.8L",
+      "power": "1450W"
+    },
+    "created_at": "2023-09-12T10:00:00Z",
+    "updated_at": "2023-10-09T10:00:00Z",
+    "index": "products",
+    "store_id": "store_003"
+  },
+  {
+    "product_id": "33003",
+    "name": "Электрочайник Smart Kettle",
+    "description": "Чайник с выбором температуры и поддержанием тепла.",
+    "price": {
+      "amount": 3490.0,
+      "currency": "RUB"
+    },
+    "category": "Бытовая техника",
+    "brand": "HomeTech",
+    "stock": {
+      "available": 140,
+      "reserved": 10
+    },
+    "sku": "HT-KETTLE",
+    "tags": [
+      "чайник",
+      "кухня",
+      "умный дом"
+    ],
+    "images": [
+      {
+        "url": "https://example.com/images/33003.jpg",
+        "alt": "Электрочайник Smart Kettle - вид спереди"
+      },
+      {
+        "url": "https://example.com/images/33003_side.jpg",
+        "alt": "Электрочайник Smart Kettle - вид сбоку"
+      }
+    ],
+    "specifications": {
+      "volume": "1.7L",
+      "power": "2200W"
+    },
+    "created_at": "2023-09-14T10:00:00Z",
+    "updated_at": "2023-10-09T10:00:00Z",
+    "index": "products",
+    "store_id": "store_002"
+  },
+  {
+    "product_id": "44001",
+    "name": "Куртка демисезонная NorthWay",
+    "description": "Утеплённая куртка с мембраной и капюшоном.",
+    "price": {
+      "amount": 8990.0,
+      "currency": "RUB"
+    },
+    "category": "Одежда",
+    "brand": "NorthWay",
+    "stock": {
+      "available": 70,
+      "reserved": 6
+    },
+    "sku": "NW-JKT-M",
+    "tags": [
+      "куртка",
+      "верхняя одежда"
+    ],
+    "images": [
+      {
+        "url": "https://example.com/images/44001.jpg",
+        "alt": "Куртка демисезонная NorthWay - вид спереди"
+      },
+      {
+        "url": "https://example.com/images/44001_side.jpg",
+        "alt": "Куртка демисезонная NorthWay - вид сбоку"
+      }
+    ],
+    "specifications": {
+      "material": "полиэстер",
+      "membrane": "10000mm",
+      "size": "M"
+    },
+    "created_at": "2023-08-01T10:00:00Z",
+    "updated_at": "2023-10-02T10:00:00Z",
+    "index": "products",
+    "store_id": "store_006"
+  },
+  {
+    "product_id": "44002",
+    "name": "Худи базовое CityStyle",
+    "description": "Хлопковое худи свободного кроя.",
+    "price": {
+      "amount": 2490.0,
+      "currency": "RUB"
+    },
+    "category": "Одежда",
+    "brand": "CityStyle",
+    "stock": {
+      "available": 160,
+      "reserved": 12
+    },
+    "sku": "CS-HOODIE",
+    "tags": [
+      "худи",
+      "повседневная одежда"
+    ],
+    "images": [
+      {
+        "url": "https://example.com/images/44002.jpg",
+        "alt": "Худи базовое CityStyle - вид спереди"
+      },
+      {
+        "url": "https://example.com/images/44002_side.jpg",
+        "alt": "Худи базовое CityStyle - вид сбоку"
+      }
+    ],
+    "specifications": {
+      "material": "хлопок 80%",
+      "size": "L"
+    },
+    "created_at": "2023-08-03T10:00:00Z",
+    "updated_at": "2023-10-02T10:00:00Z",
+    "index": "products",
+    "store_id": "store_006"
+  },
+  {
+    "product_id": "55001",
+    "name": "Книга «Kafka: подробное руководство»",
+    "description": "Практическое руководство по Apache Kafka: архитектура, клиенты, эксплуатация.",
+    "price": {
+      "amount": 2190.0,
+      "currency": "RUB"
+    },
+    "category": "Книги",
+    "brand": "Питер",
+    "stock": {
+      "available": 500,
+      "reserved": 20
+    },
+    "sku": "BOOK-KAFKA",
+    "tags": [
+      "книги",
+      "программирование",
+      "kafka"
+    ],
+    "images": [
+      {
+        "url": "https://example.com/images/55001.jpg",
+        "alt": "Книга «Kafka: подробное руководство» - вид спереди"
+      },
+      {
+        "url": "https://example.com/images/55001_side.jpg",
+        "alt": "Книга «Kafka: подробное руководство» - вид сбоку"
+      }
+    ],
+    "specifications": {
+      "pages": "640",
+      "cover": "мягкая",
+      "year": "2023"
+    },
+    "created_at": "2023-05-01T10:00:00Z",
+    "updated_at": "2023-09-01T10:00:00Z",
+    "index": "products",
+    "store_id": "store_007"
+  },
+  {
+    "product_id": "55002",
+    "name": "Книга «Высоконагруженные приложения»",
+    "description": "Классика о проектировании систем обработки данных.",
+    "price": {
+      "amount": 2590.0,
+      "currency": "RUB"
+    },
+    "category": "Книги",
+    "brand": "Питер",
+    "stock": {
+      "available": 300,
+      "reserved": 10
+    },
+    "sku": "BOOK-DDIA",
+    "tags": [
+      "книги",
+      "программирование",
+      "архитектура"
+    ],
+    "images": [
+      {
+        "url": "https://example.com/images/55002.jpg",
+        "alt": "Книга «Высоконагруженные приложения» - вид спереди"
+      },
+      {
+        "url": "https://example.com/images/55002_side.jpg",
+        "alt": "Книга «Высоконагруженные приложения» - вид сбоку"
+      }
+    ],
+    "specifications": {
+      "pages": "640",
+      "cover": "мягкая",
+      "year": "2022"
+    },
+    "created_at": "2023-05-02T10:00:00Z",
+    "updated_at": "2023-09-01T10:00:00Z",
+    "index": "products",
+    "store_id": "store_007"
+  },
+  {
+    "product_id": "90001",
+    "name": "Электронная сигарета VapeCloud",
+    "description": "Одноразовая электронная сигарета, 1500 затяжек.",
+    "price": {
+      "amount": 990.0,
+      "currency": "RUB"
+    },
+    "category": "Табак",
+    "brand": "VapeCloud",
+    "stock": {
+      "available": 1000,
+      "reserved": 0
+    },
+    "sku": "VC-1500",
+    "tags": [
+      "вейп",
+      "табак"
+    ],
+    "images": [
+      {
+        "url": "https://example.com/images/90001.jpg",
+        "alt": "Электронная сигарета VapeCloud - вид спереди"
+      },
+      {
+        "url": "https://example.com/images/90001_side.jpg",
+        "alt": "Электронная сигарета VapeCloud - вид сбоку"
+      }
+    ],
+    "specifications": {
+      "puffs": "1500"
+    },
+    "created_at": "2023-10-01T10:00:00Z",
+    "updated_at": "2023-10-01T10:00:00Z",
+    "index": "products",
+    "store_id": "store_008"
+  },
+  {
+    "product_id": "90002",
+    "name": "Пневматический пистолет Striker",
+    "description": "Пневматический пистолет калибра 4,5 мм.",
+    "price": {
+      "amount": 8990.0,
+      "currency": "RUB"
+    },
+    "category": "Оружие",
+    "brand": "Striker",
+    "stock": {
+      "available": 30,
+      "reserved": 0
+    },
+    "sku": "ST-45",
+    "tags": [
+      "пистолет",
+      "оружие"
+    ],
+    "images": [
+      {
+        "url": "https://example.com/images/90002.jpg",
+        "alt": "Пневматический пистолет Striker - вид спереди"
+      },
+      {
+        "url": "https://example.com/images/90002_side.jpg",
+        "alt": "Пневматический пистолет Striker - вид сбоку"
+      }
+    ],
+    "specifications": {
+      "caliber": "4.5mm"
+    },
+    "created_at": "2023-10-01T10:00:00Z",
+    "updated_at": "2023-10-01T10:00:00Z",
+    "index": "products",
+    "store_id": "store_008"
+  },
+  {
+    "product_id": "90003",
+    "name": "Фейерверк «Салют 100 залпов»",
+    "description": "Батарея салютов, 100 залпов.",
+    "price": {
+      "amount": 4990.0,
+      "currency": "RUB"
+    },
+    "category": "Пиротехника",
+    "brand": "FireShow",
+    "stock": {
+      "available": 60,
+      "reserved": 0
+    },
+    "sku": "FS-100",
+    "tags": [
+      "пиротехника",
+      "праздник"
+    ],
+    "images": [
+      {
+        "url": "https://example.com/images/90003.jpg",
+        "alt": "Фейерверк «Салют 100 залпов» - вид спереди"
+      },
+      {
+        "url": "https://example.com/images/90003_side.jpg",
+        "alt": "Фейерверк «Салют 100 залпов» - вид сбоку"
+      }
+    ],
+    "specifications": {
+      "shots": "100",
+      "class": "F3"
+    },
+    "created_at": "2023-10-01T10:00:00Z",
+    "updated_at": "2023-10-01T10:00:00Z",
+    "index": "products",
+    "store_id": "store_009"
+  }
+]

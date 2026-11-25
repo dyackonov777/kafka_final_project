@@ -1,0 +1,56 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+rule_files:
+  - /etc/prometheus/alert-rules.yml
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets: ["alertmanager:9093"]
+
+scrape_configs:
+  # Основной кластер: JMX Exporter на каждом брокере
+  - job_name: kafka-primary
+    static_configs:
+      - targets: ["kafka-1:7071", "kafka-2:7071", "kafka-3:7071"]
+    relabel_configs: &broker-label
+      - source_labels: [__address__]
+        regex: "([^:]+):.*"
+        target_label: broker
+        replacement: "$1"
+
+  # Аналитический кластер (копия данных через MirrorMaker 2)
+  - job_name: kafka-analytics
+    static_configs:
+      - targets: ["kafka-b1:7071", "kafka-b2:7071", "kafka-b3:7071"]
+    relabel_configs: *broker-label
+
+  # Lag групп потребителей (Faust, Kafka Connect) и офсеты топиков основного кластера
+  - job_name: kafka-exporter-primary
+    static_configs:
+      - targets: ["kafka-exporter-primary:9308"]
+        labels:
+          cluster: primary
+
+  # Офсеты копий в аналитическом кластере (отставание MirrorMaker 2)
+  - job_name: kafka-exporter-analytics
+    static_configs:
+      - targets: ["kafka-exporter-analytics:9308"]
+        labels:
+          cluster: analytics
+
+  # Kafka Connect: статусы коннекторов и задач (JMX Exporter)
+  - job_name: kafka-connect
+    static_configs:
+      - targets: ["kafka-connect:9404"]
+
+  # Потоковый фильтр Faust: решения по товарам, резервы, события, ребалансы
+  - job_name: faust-moderation
+    static_configs:
+      - targets: ["faust-moderation:6066"]
+
+  - job_name: prometheus
+    static_configs:
+      - targets: ["localhost:9090"]

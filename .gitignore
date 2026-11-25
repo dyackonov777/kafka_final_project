@@ -1,0 +1,40 @@
+# --- Секреты: пароли и TLS-ключи (создаются start.sh / generate-certs.sh) ---
+.env
+.env.*
+!.env.example
+certs/
+*.p12
+*.jks
+*.key
+*.pem
+*.crt
+*.csr
+*.srl
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+
+# --- Spark / Hadoop (локальные артефакты при запуске вне Docker) ---
+spark-warehouse/
+metastore_db/
+derby.log
+checkpoint/
+
+# --- Отладочные логи и временные файлы ---
+*.log
+*.tmp
+*.bak
+*.swp
+*~
+
+# --- IDE и ОС ---
+.idea/
+.vscode/
+*.iml
+.DS_Store
+Thumbs.db
+desktop.ini

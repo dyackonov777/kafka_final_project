@@ -1,0 +1,23 @@
+# Базовая конфигурация: алерты уходят на webhook (сервис alert-webhook печатает их в лог).
+# Если в .env заданы TELEGRAM_BOT_TOKEN и TELEGRAM_CHAT_ID, контейнер вместо этого файла
+# использует alertmanager-telegram.yml.tmpl (см. docker-compose.yml).
+global:
+  resolve_timeout: 5m
+
+route:
+  receiver: notify
+  group_by: ["alertname", "broker"]
+  group_wait: 10s
+  group_interval: 1m
+  repeat_interval: 1h
+
+receivers:
+  - name: notify
+    webhook_configs:
+      - url: http://alert-webhook:5001/alerts
+        send_resolved: true
+
+inhibit_rules:
+  # Если брокер упал, не дублируем алертом о недореплицированных партициях
+  - source_matchers: ["alertname = KafkaBrokerDown"]
+    target_matchers: ["alertname = KafkaUnderReplicatedPartitions"]

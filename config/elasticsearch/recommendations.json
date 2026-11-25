@@ -1,0 +1,27 @@
+{
+  "settings": {
+    "number_of_shards": 1,
+    "number_of_replicas": 0
+  },
+  "mappings": {
+    "properties": {
+      "user_id": { "type": "keyword" },
+      "strategy": { "type": "keyword" },
+      "based_on_categories": { "type": "keyword" },
+      "generated_at": { "type": "date" },
+      "recommendations": {
+        "type": "nested",
+        "properties": {
+          "rank": { "type": "integer" },
+          "product_id": { "type": "keyword" },
+          "name": { "type": "text", "analyzer": "russian" },
+          "category": { "type": "keyword" },
+          "brand": { "type": "keyword" },
+          "price": { "type": "double" },
+          "currency": { "type": "keyword" },
+          "score": { "type": "double" }
+        }
+      }
+    }
+  }
+}

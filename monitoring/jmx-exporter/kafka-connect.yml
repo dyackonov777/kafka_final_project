@@ -1,0 +1,37 @@
+# Prometheus JMX Exporter для Kafka Connect: статусы коннекторов/задач и метрики sink-задач.
+lowercaseOutputName: true
+lowercaseOutputLabelNames: true
+
+rules:
+  # Статус коннектора: kafka_connect_connector_status{connector, status="running|paused|failed|..."} = 1
+  - pattern: 'kafka.connect<type=connector-metrics, connector=([^>]+)><>status: ([a-z-]+)'
+    name: kafka_connect_connector_status
+    value: 1
+    labels:
+      connector: "$1"
+      status: "$2"
+    type: GAUGE
+
+  # Статус задачи: kafka_connect_task_status{connector, task, status} = 1
+  - pattern: 'kafka.connect<type=connector-task-metrics, connector=([^,]+), task=([^>]+)><>status: ([a-z-]+)'
+    name: kafka_connect_task_status
+    value: 1
+    labels:
+      connector: "$1"
+      task: "$2"
+      status: "$3"
+    type: GAUGE
+
+  # Метрики sink-задач и ошибок: kafka_connect_sink_task_sink_record_read_total,
+  # kafka_connect_task_error_total_record_errors, kafka_connect_task_error_deadletterqueue_produce_requests, ...
+  - pattern: 'kafka.connect<type=(sink-task|task-error)-metrics, connector=([^,]+), task=([^>]+)><>([a-z-]+)'
+    name: kafka_connect_$1_$4
+    labels:
+      connector: "$2"
+      task: "$3"
+    type: GAUGE
+
+  # Общие метрики воркера: kafka_connect_worker_connector_count, kafka_connect_worker_task_count, ...
+  - pattern: 'kafka.connect<type=connect-worker-metrics><>([a-z-]+)'
+    name: kafka_connect_worker_$1
+    type: GAUGE

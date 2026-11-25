@@ -1,0 +1,5 @@
+# Скрипты и конфиги монтируются в Linux-контейнеры: всегда LF, даже при checkout в Windows
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.p12 binary

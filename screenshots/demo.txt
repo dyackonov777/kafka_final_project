@@ -1,0 +1,609 @@
+
+DAS@DESKTOP-20TD790 MINGW64 ~/Desktop/kafka-final-project (main)
+$ bash scripts/demo.sh
+
+==== 1. Текущий список запрещённых товаров
+
+Запрещённых товаров: 3
+  90001      Табачная и никотиносодержащая продукция       с 2026-11-24T18:35:04+00:00
+  90002      Оружие и его копии                            с 2026-11-24T18:35:04+00:00
+  90003      Пиротехника классов F3-F4                     с 2026-11-24T18:35:04+00:00
+
+==== 2. SHOP API: магазины отправляют 20 товаров из data/products.json (+1 битое сообщение)
+2026-11-24 18:49:33,821 | INFO    | shop-api | Отправка 20 товаров из data/products.json в топик shop-products
+2026-11-24 18:49:33,821 | INFO    | shop-api | -> 12345 | Умные часы XYZ | магазин store_001
+2026-11-24 18:49:33,821 | INFO    | shop-api | -> 12346 | Умные часы XYZ Pro | магазин store_001
+2026-11-24 18:49:33,821 | INFO    | shop-api | -> 12347 | Фитнес-браслет Pulse 3 | магазин store_002
+2026-11-24 18:49:33,821 | INFO    | shop-api | -> 12348 | Беспроводные наушники SoundMax | магазин store_002
+2026-11-24 18:49:33,821 | INFO    | shop-api | -> 12349 | Наушники-вкладыши SoundMax Mini | магазин store_003
+2026-11-24 18:49:33,821 | INFO    | shop-api | -> 12350 | Смартфон Nova 12 | магазин store_001
+2026-11-24 18:49:33,821 | INFO    | shop-api | -> 22001 | Кроссовки беговые AirRun | магазин store_004
+2026-11-24 18:49:33,821 | INFO    | shop-api | -> 22002 | Кроссовки трейловые AirRun Trail | магазин store_004
+2026-11-24 18:49:33,821 | INFO    | shop-api | -> 22003 | Коврик для йоги FlexMat | магазин store_005
+2026-11-24 18:49:33,821 | INFO    | shop-api | -> 22004 | Гантели разборные PowerSet 20 кг | магазин store_005
+2026-11-24 18:49:33,821 | INFO    | shop-api | -> 33001 | Робот-пылесос CleanBot S5 | магазин store_003
+2026-11-24 18:49:33,821 | INFO    | shop-api | -> 33002 | Кофемашина BaristaHome | магазин store_003
+2026-11-24 18:49:33,821 | INFO    | shop-api | -> 33003 | Электрочайник Smart Kettle | магазин store_002
+2026-11-24 18:49:33,821 | INFO    | shop-api | -> 44001 | Куртка демисезонная NorthWay | магазин store_006
+2026-11-24 18:49:33,821 | INFO    | shop-api | -> 44002 | Худи базовое CityStyle | магазин store_006
+2026-11-24 18:49:33,821 | INFO    | shop-api | -> 55001 | Книга «Kafka: подробное руководство» | магазин store_007
+2026-11-24 18:49:33,821 | INFO    | shop-api | -> 55002 | Книга «Высоконагруженные приложения» | магазин store_007
+2026-11-24 18:49:33,821 | INFO    | shop-api | -> 90001 | Электронная сигарета VapeCloud | магазин store_008
+2026-11-24 18:49:33,821 | INFO    | shop-api | -> 90002 | Пневматический пистолет Striker | магазин store_008
+2026-11-24 18:49:33,822 | INFO    | shop-api | -> 90003 | Фейерверк «Салют 100 залпов» | магазин store_009
+2026-11-24 18:49:33,822 | WARNING | shop-api | -> broken-1 | намеренно битое сообщение
+2026-11-24 18:49:33,888 | INFO    | shop-api | Итог: поставлено в очередь=21, подтверждено брокером=21, не доставлено=0, пропущено при валидации=0
+  ждём: в Elasticsearch 17 разрешённых товаров — готово (0 с)
+
+==== 3. Решения потокового фильтра (лог faust-moderation)
+faust-moderation  | [2026-11-24 18:49:33,883] [1] [INFO] [PASSED]  12347 | Фитнес-браслет Pulse 3 
+faust-moderation  | [2026-11-24 18:49:33,884] [1] [INFO] [PASSED]  12348 | Беспроводные наушники SoundMax 
+faust-moderation  | [2026-11-24 18:49:33,885] [1] [INFO] [PASSED]  12350 | Смартфон Nova 12 
+faust-moderation  | [2026-11-24 18:49:33,886] [1] [INFO] [PASSED]  33002 | Кофемашина BaristaHome 
+faust-moderation  | [2026-11-24 18:49:33,886] [1] [INFO] [PASSED]  55001 | Книга «Kafka: подробное руководство» 
+faust-moderation  | [2026-11-24 18:49:33,887] [1] [INFO] [PASSED]  55002 | Книга «Высоконагруженные приложения» 
+faust-moderation  | [2026-11-24 18:49:33,891] [1] [INFO] [PASSED]  12345 | Умные часы XYZ 
+faust-moderation  | [2026-11-24 18:49:33,893] [1] [INFO] [PASSED]  12346 | Умные часы XYZ Pro 
+faust-moderation  | [2026-11-24 18:49:33,894] [1] [INFO] [PASSED]  12349 | Наушники-вкладыши SoundMax Mini 
+faust-moderation  | [2026-11-24 18:49:33,896] [1] [INFO] [PASSED]  22001 | Кроссовки беговые AirRun 
+faust-moderation  | [2026-11-24 18:49:33,899] [1] [INFO] [PASSED]  22002 | Кроссовки трейловые AirRun Trail 
+faust-moderation  | [2026-11-24 18:49:33,901] [1] [INFO] [PASSED]  22003 | Коврик для йоги FlexMat 
+faust-moderation  | [2026-11-24 18:49:33,902] [1] [INFO] [PASSED]  33003 | Электрочайник Smart Kettle 
+faust-moderation  | [2026-11-24 18:49:33,904] [1] [INFO] [PASSED]  44001 | Куртка демисезонная NorthWay 
+faust-moderation  | [2026-11-24 18:49:33,905] [1] [INFO] [PASSED]  44002 | Худи базовое CityStyle 
+faust-moderation  | [2026-11-24 18:49:33,905] [1] [WARNING] [BLOCKED] 90002 | Пневматический пистолет Striker | магазин store_008 | причина: Оружие и его копии 
+faust-moderation  | [2026-11-24 18:49:33,906] [1] [ERROR] [INVALID] key=broken-1: Expecting property name enclosed in double quotes: line 1 column 2 (char 1) -> shop-products-dlq 
+faust-moderation  | [2026-11-24 18:49:33,911] [1] [INFO] [PASSED]  22004 | Гантели разборные PowerSet 20 кг 
+faust-moderation  | [2026-11-24 18:49:33,912] [1] [INFO] [PASSED]  33001 | Робот-пылесос CleanBot S5 
+faust-moderation  | [2026-11-24 18:49:33,912] [1] [WARNING] [BLOCKED] 90001 | Электронная сигарета VapeCloud | магазин store_008 | причина: Табачная и никотиносодержащая продукция 
+faust-moderation  | [2026-11-24 18:49:33,913] [1] [WARNING] [BLOCKED] 90003 | Фейерверк «Салют 100 залпов» | магазин store_009 | причина: Пиротехника классов F3-F4 
+
+==== 4. CLIENT API: поиск товаров по названию (запросы уходят в Kafka и Elasticsearch)
+
+Поиск «умные часы»: найдено 2
+ 1. [12345] Умные часы XYZ
+    Электроника | XYZ | 4999.99 RUB | в наличии: 150 | магазин: store_001
+    Умные часы с функцией мониторинга здоровья, GPS и уведомлениями.
+ 2. [12346] Умные часы XYZ Pro
+    Электроника | XYZ | 12999.0 RUB | в наличии: 60 | магазин: store_001
+    Флагманские умные часы: ЭКГ, пульсоксиметр, AMOLED-экран, eSIM.
+2026-11-24 18:49:35,502 | INFO    | client-api | Событие 4044ea83-105c-44b5-adaf-c0fa47a0b52f (search) записано в топик client-requests
+
+Поиск «наушники»: найдено 2
+ 1. [12348] Беспроводные наушники SoundMax
+    Электроника | SoundMax | 6990.0 RUB | в наличии: 120 | магазин: store_002
+    Наушники с активным шумоподавлением и временем работы до 30 часов.
+ 2. [12349] Наушники-вкладыши SoundMax Mini
+    Электроника | SoundMax | 2990.0 RUB | в наличии: 400 | магазин: store_003
+    Компактные TWS-наушники с зарядным кейсом.
+2026-11-24 18:49:36,402 | INFO    | client-api | Событие e601e754-5ac7-4148-aaeb-f60b394610e5 (search) записано в топик client-requests
+
+Поиск «кроссовки»: найдено 2
+ 1. [22001] Кроссовки беговые AirRun
+    Спорт | AirRun | 7490.0 RUB | в наличии: 90 | магазин: store_004
+    Лёгкие беговые кроссовки с амортизирующей подошвой.
+ 2. [22002] Кроссовки трейловые AirRun Trail
+    Спорт | AirRun | 8990.0 RUB | в наличии: 45 | магазин: store_004
+    Кроссовки для бега по пересечённой местности, защита носка.
+2026-11-24 18:49:37,338 | INFO    | client-api | Событие e6f65725-fa3d-4374-84f9-1e8f649f6bbc (search) записано в топик client-requests
+
+Поиск «коврик для йоги»: найдено 1
+ 1. [22003] Коврик для йоги FlexMat
+    Спорт | FlexMat | 1990.0 RUB | в наличии: 200 | магазин: store_005
+    Нескользящий коврик толщиной 6 мм с ремнём для переноски.
+2026-11-24 18:49:38,318 | INFO    | client-api | Событие fca17cd6-f3fa-4701-acc3-a15a23b8c808 (search) записано в топик client-requests
+
+Поиск «кофемашина»: найдено 1
+ 1. [33002] Кофемашина BaristaHome
+    Бытовая техника | BaristaHome | 29990.0 RUB | в наличии: 25 | магазин: store_003
+    Автоматическая кофемашина с капучинатором и 15 бар давления.
+2026-11-24 18:49:39,185 | INFO    | client-api | Событие 3d41da8e-22a9-4043-b255-61f5ccb5ac5f (search) записано в топик client-requests
+
+Поиск «книга kafka»: найдено 1
+ 1. [55001] Книга «Kafka: подробное руководство»
+    Книги | Питер | 2190.0 RUB | в наличии: 500 | магазин: store_007
+    Практическое руководство по Apache Kafka: архитектура, клиенты, эксплуатация.
+2026-11-24 18:49:40,031 | INFO    | client-api | Событие 34443f18-e482-4092-91af-a5c1d9a2dd0e (search) записано в топик client-requests
+
+Поиск «часы»: найдено 2
+ 1. [12345] Умные часы XYZ
+    Электроника | XYZ | 4999.99 RUB | в наличии: 150 | магазин: store_001
+    Умные часы с функцией мониторинга здоровья, GPS и уведомлениями.
+ 2. [12346] Умные часы XYZ Pro
+    Электроника | XYZ | 12999.0 RUB | в наличии: 60 | магазин: store_001
+    Флагманские умные часы: ЭКГ, пульсоксиметр, AMOLED-экран, eSIM.
+2026-11-24 18:49:40,858 | INFO    | client-api | Событие 5f7906b0-fa85-4032-bdc2-772215796f03 (search) записано в топик client-requests
+
+Поиск «электронная сигарета»: найдено 0
+2026-11-24 18:49:41,810 | INFO    | client-api | Событие 57dbbc7c-d40c-4811-aab8-0c5105e65f1e (search) записано в топик client-requests
+
+Рекомендации для user_006 (стратегия: popular, рассчитаны 2026-11-24T18:48:20+00:00)
+2026-11-24 18:49:42,894 | INFO    | client-api | Событие 45fab4b2-966b-4061-826f-4821efce1510 (recommendations) записано в топик client-requests
+ 1. [12345] Умные часы XYZ | Электроника | 4999.99 RUB | score=7.0
+ 2. [33002] Кофемашина BaristaHome | Бытовая техника | 29990.0 RUB | score=6.0
+ 3. [22001] Кроссовки беговые AirRun | Спорт | 7490.0 RUB | score=6.0
+ 4. [22004] Гантели разборные PowerSet 20 кг | Спорт | 5490.0 RUB | score=5.0
+ 5. [12346] Умные часы XYZ Pro | Электроника | 12999.0 RUB | score=2.0
+
+==== 5. CLIENT API: заказы (топик orders -> Elasticsearch, резерв на складе, аналитика)
+2026-11-24 18:49:43,778 | INFO    | client-api | Заказ fe335bbb-57b0-43b0-917c-c3cb4e500bfd записан в топик orders
+
+Заказ fe335bbb-57b0-43b0-917c-c3cb4e500bfd оформлен
+  Умные часы XYZ × 1 = 4999.99 RUB
+2026-11-24 18:49:44,740 | INFO    | client-api | Заказ a77e88ba-b6f1-44b2-be4a-1381d69ec072 записан в топик orders
+
+Заказ a77e88ba-b6f1-44b2-be4a-1381d69ec072 оформлен
+  Кроссовки беговые AirRun × 2 = 14980.0 RUB
+
+Заказ 037038ba-a7c6-41b5-85d2-e70ddfe3283c оформлен
+  Кофемашина BaristaHome × 1 = 29990.0 RUB
+2026-11-24 18:49:45,690 | INFO    | client-api | Заказ 037038ba-a7c6-41b5-85d2-e70ddfe3283c записан в топик orders
+2026-11-24 18:49:46,641 | INFO    | client-api | Заказ 7d8ead27-eed1-41a0-ac4a-974ffa7d963c записан в топик orders
+
+Заказ 7d8ead27-eed1-41a0-ac4a-974ffa7d963c оформлен
+  Гантели разборные PowerSet 20 кг × 1 = 5490.0 RUB
+
+Товар 90001 не найден или недоступен для продажи.
+  ждём: 4 заказа в Elasticsearch — готово (0 с)
+
+Заказы пользователя user_002 (из Elasticsearch): 2
+  2026-11-24T18:49:44+00:00 | a77e88ba-b6f1-44b2-be4a-1381d69ec072 | created | 14980.0 RUB | Кроссовки беговые AirRun × 2
+  2026-11-24T18:42:57+00:00 | eda1b6bc-0a22-4994-bead-cc08ab51fe3d | created | 14980.0 RUB | Кроссовки беговые AirRun × 2
+  Остаток товара 22001 после заказа 2 шт. (Faust учёл резерв):
+  :{"stock":{"reserved":17,"available":88}}}
+
+==== 6. Дублирование во второй кластер
+  ждём: MirrorMaker 2 скопировал данные в analytics — готово (0 с)
+
+==== 7. Аналитика: HDFS -> Spark -> топик recommendations
+
+==== Spark: аналитика и рекомендации
+:: loading settings :: url = jar:file:/opt/spark/jars/ivy-2.5.1.jar!/org/apache/ivy/core/settings/ivysettings.xml
+Ivy Default Cache set to: /tmp/.ivy2/cache
+The jars for the packages stored in: /tmp/.ivy2/jars
+org.apache.spark#spark-sql-kafka-0-10_2.12 added as a dependency
+:: resolving dependencies :: org.apache.spark#spark-submit-parent-a21372e1-0833-40e5-a0ac-5ad86581e6f9;1.0
+        confs: [default]
+        found org.apache.spark#spark-sql-kafka-0-10_2.12;3.5.6 in central
+        found org.apache.spark#spark-token-provider-kafka-0-10_2.12;3.5.6 in central
+        found org.apache.kafka#kafka-clients;3.4.1 in central
+        found org.lz4#lz4-java;1.8.0 in central
+        found org.xerial.snappy#snappy-java;1.1.10.5 in central
+        found org.slf4j#slf4j-api;2.0.7 in central
+        found org.apache.hadoop#hadoop-client-runtime;3.3.4 in central
+        found org.apache.hadoop#hadoop-client-api;3.3.4 in central
+        found commons-logging#commons-logging;1.1.3 in central
+        found com.google.code.findbugs#jsr305;3.0.0 in central
+        found org.apache.commons#commons-pool2;2.11.1 in central
+:: resolution report :: resolve 339ms :: artifacts dl 7ms
+        :: modules in use:
+        com.google.code.findbugs#jsr305;3.0.0 from central in [default]
+        commons-logging#commons-logging;1.1.3 from central in [default]
+        org.apache.commons#commons-pool2;2.11.1 from central in [default]
+        org.apache.hadoop#hadoop-client-api;3.3.4 from central in [default]
+        org.apache.hadoop#hadoop-client-runtime;3.3.4 from central in [default]
+        org.apache.kafka#kafka-clients;3.4.1 from central in [default]
+        org.apache.spark#spark-sql-kafka-0-10_2.12;3.5.6 from central in [default]
+        org.apache.spark#spark-token-provider-kafka-0-10_2.12;3.5.6 from central in [default]
+        org.lz4#lz4-java;1.8.0 from central in [default]
+        org.slf4j#slf4j-api;2.0.7 from central in [default]
+        org.xerial.snappy#snappy-java;1.1.10.5 from central in [default]
+        ---------------------------------------------------------------------
+        |                  |            modules            ||   artifacts   |
+        |       conf       | number| search|dwnlded|evicted|| number|dwnlded|
+        ---------------------------------------------------------------------
+        |      default     |   11  |   0   |   0   |   0   ||   11  |   0   |
+        ---------------------------------------------------------------------
+:: retrieving :: org.apache.spark#spark-submit-parent-a21372e1-0833-40e5-a0ac-5ad86581e6f9
+        confs: [default]
+        0 artifacts copied, 11 already retrieved (0kB/8ms)
+26/11/24 18:50:01 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+26/11/24 18:50:02 INFO SparkContext: Running Spark version 3.5.6
+26/11/24 18:50:02 INFO SparkContext: OS info Linux, 6.18.58.1-microsoft-standard-WSL2, amd64
+26/11/24 18:50:02 INFO SparkContext: Java version 17.0.15
+26/11/24 18:50:02 INFO ResourceUtils: ==============================================================
+26/11/24 18:50:02 INFO ResourceUtils: No custom resources configured for spark.driver.
+26/11/24 18:50:02 INFO ResourceUtils: ==============================================================
+26/11/24 18:50:02 INFO SparkContext: Submitted application: marketplace-recommendations
+26/11/24 18:50:02 INFO ResourceProfile: Default ResourceProfile created, executor resources: Map(cores -> name: cores, amount: 2, script: , vendor: , memory -> name: memory, amount: 1024, script: , vendor: , offHeap -> name: offHeap, amount: 0, script: , vendor: ), task resources: Map(cpus -> name: cpus, amount: 1.0)
+26/11/24 18:50:02 INFO ResourceProfile: Limiting resource is cpus at 2 tasks per executor
+26/11/24 18:50:02 INFO ResourceProfileManager: Added ResourceProfile id: 0
+26/11/24 18:50:02 INFO SecurityManager: Changing view acls to: spark
+26/11/24 18:50:02 INFO SecurityManager: Changing modify acls to: spark
+26/11/24 18:50:02 INFO SecurityManager: Changing view acls groups to: 
+26/11/24 18:50:02 INFO SecurityManager: Changing modify acls groups to: 
+26/11/24 18:50:02 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: spark; groups with view permissions: EMPTY; users with modify permissions: spark; groups with modify permissions: EMPTY
+26/11/24 18:50:02 INFO Utils: Successfully started service 'sparkDriver' on port 46653.
+26/11/24 18:50:02 INFO SparkEnv: Registering MapOutputTracker
+26/11/24 18:50:02 INFO SparkEnv: Registering BlockManagerMaster
+26/11/24 18:50:02 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+26/11/24 18:50:02 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+26/11/24 18:50:02 INFO SparkEnv: Registering BlockManagerMasterHeartbeat
+26/11/24 18:50:02 INFO DiskBlockManager: Created local directory at /tmp/blockmgr-062af58f-32a8-4be0-a8b4-a181d18793bf
+26/11/24 18:50:02 INFO MemoryStore: MemoryStore started with capacity 434.4 MiB
+26/11/24 18:50:02 INFO SparkEnv: Registering OutputCommitCoordinator
+26/11/24 18:50:02 INFO JettyUtils: Start Jetty 0.0.0.0:4040 for SparkUI
+26/11/24 18:50:02 INFO Utils: Successfully started service 'SparkUI' on port 4040.
+26/11/24 18:50:02 INFO SparkContext: Added JAR file:///tmp/.ivy2/jars/org.apache.spark_spark-sql-kafka-0-10_2.12-3.5.6.jar at spark://spark-master:46653/jars/org.apache.spark_spark-sql-kafka-0-10_2.12-3.5.6.jar with timestamp 1795546202449
+26/11/24 18:50:02 INFO SparkContext: Added JAR file:///tmp/.ivy2/jars/org.apache.spark_spark-token-provider-kafka-0-10_2.12-3.5.6.jar at spark://spark-master:46653/jars/org.apache.spark_spark-token-provider-kafka-0-10_2.12-3.5.6.jar with timestamp 1795546202449
+26/11/24 18:50:02 INFO SparkContext: Added JAR file:///tmp/.ivy2/jars/org.apache.kafka_kafka-clients-3.4.1.jar at spark://spark-master:46653/jars/org.apache.kafka_kafka-clients-3.4.1.jar with timestamp 1795546202449
+26/11/24 18:50:02 INFO SparkContext: Added JAR file:///tmp/.ivy2/jars/com.google.code.findbugs_jsr305-3.0.0.jar at spark://spark-master:46653/jars/com.google.code.findbugs_jsr305-3.0.0.jar with timestamp 1795546202449
+26/11/24 18:50:02 INFO SparkContext: Added JAR file:///tmp/.ivy2/jars/org.apache.commons_commons-pool2-2.11.1.jar at spark://spark-master:46653/jars/org.apache.commons_commons-pool2-2.11.1.jar with timestamp 1795546202449
+26/11/24 18:50:02 INFO SparkContext: Added JAR file:///tmp/.ivy2/jars/org.apache.hadoop_hadoop-client-runtime-3.3.4.jar at spark://spark-master:46653/jars/org.apache.hadoop_hadoop-client-runtime-3.3.4.jar with timestamp 1795546202449
+26/11/24 18:50:02 INFO SparkContext: Added JAR file:///tmp/.ivy2/jars/org.lz4_lz4-java-1.8.0.jar at spark://spark-master:46653/jars/org.lz4_lz4-java-1.8.0.jar with timestamp 1795546202449
+26/11/24 18:50:02 INFO SparkContext: Added JAR file:///tmp/.ivy2/jars/org.xerial.snappy_snappy-java-1.1.10.5.jar at spark://spark-master:46653/jars/org.xerial.snappy_snappy-java-1.1.10.5.jar with timestamp 1795546202449
+26/11/24 18:50:02 INFO SparkContext: Added JAR file:///tmp/.ivy2/jars/org.slf4j_slf4j-api-2.0.7.jar at spark://spark-master:46653/jars/org.slf4j_slf4j-api-2.0.7.jar with timestamp 1795546202449
+26/11/24 18:50:02 INFO SparkContext: Added JAR file:///tmp/.ivy2/jars/org.apache.hadoop_hadoop-client-api-3.3.4.jar at spark://spark-master:46653/jars/org.apache.hadoop_hadoop-client-api-3.3.4.jar with timestamp 1795546202449
+26/11/24 18:50:02 INFO SparkContext: Added JAR file:///tmp/.ivy2/jars/commons-logging_commons-logging-1.1.3.jar at spark://spark-master:46653/jars/commons-logging_commons-logging-1.1.3.jar with timestamp 1795546202449
+26/11/24 18:50:02 INFO SparkContext: Added file file:///tmp/.ivy2/jars/org.apache.spark_spark-sql-kafka-0-10_2.12-3.5.6.jar at spark://spark-master:46653/files/org.apache.spark_spark-sql-kafka-0-10_2.12-3.5.6.jar with timestamp 1795546202449
+26/11/24 18:50:02 INFO Utils: Copying /tmp/.ivy2/jars/org.apache.spark_spark-sql-kafka-0-10_2.12-3.5.6.jar to /tmp/spark-9bdd265d-1997-4bf3-b3ce-287a2b1f4a8a/userFiles-f9fd5365-1ffa-48e2-b33f-22e594f09346/org.apache.spark_spark-sql-kafka-0-10_2.12-3.5.6.jar
+26/11/24 18:50:02 INFO SparkContext: Added file file:///tmp/.ivy2/jars/org.apache.spark_spark-token-provider-kafka-0-10_2.12-3.5.6.jar at spark://spark-master:46653/files/org.apache.spark_spark-token-provider-kafka-0-10_2.12-3.5.6.jar with timestamp 1795546202449
+26/11/24 18:50:02 INFO Utils: Copying /tmp/.ivy2/jars/org.apache.spark_spark-token-provider-kafka-0-10_2.12-3.5.6.jar to /tmp/spark-9bdd265d-1997-4bf3-b3ce-287a2b1f4a8a/userFiles-f9fd5365-1ffa-48e2-b33f-22e594f09346/org.apache.spark_spark-token-provider-kafka-0-10_2.12-3.5.6.jar
+26/11/24 18:50:02 INFO SparkContext: Added file file:///tmp/.ivy2/jars/org.apache.kafka_kafka-clients-3.4.1.jar at spark://spark-master:46653/files/org.apache.kafka_kafka-clients-3.4.1.jar with timestamp 1795546202449
+26/11/24 18:50:02 INFO Utils: Copying /tmp/.ivy2/jars/org.apache.kafka_kafka-clients-3.4.1.jar to /tmp/spark-9bdd265d-1997-4bf3-b3ce-287a2b1f4a8a/userFiles-f9fd5365-1ffa-48e2-b33f-22e594f09346/org.apache.kafka_kafka-clients-3.4.1.jar
+26/11/24 18:50:02 INFO SparkContext: Added file file:///tmp/.ivy2/jars/com.google.code.findbugs_jsr305-3.0.0.jar at spark://spark-master:46653/files/com.google.code.findbugs_jsr305-3.0.0.jar with timestamp 1795546202449
+26/11/24 18:50:02 INFO Utils: Copying /tmp/.ivy2/jars/com.google.code.findbugs_jsr305-3.0.0.jar to /tmp/spark-9bdd265d-1997-4bf3-b3ce-287a2b1f4a8a/userFiles-f9fd5365-1ffa-48e2-b33f-22e594f09346/com.google.code.findbugs_jsr305-3.0.0.jar
+26/11/24 18:50:02 INFO SparkContext: Added file file:///tmp/.ivy2/jars/org.apache.commons_commons-pool2-2.11.1.jar at spark://spark-master:46653/files/org.apache.commons_commons-pool2-2.11.1.jar with timestamp 1795546202449
+26/11/24 18:50:02 INFO Utils: Copying /tmp/.ivy2/jars/org.apache.commons_commons-pool2-2.11.1.jar to /tmp/spark-9bdd265d-1997-4bf3-b3ce-287a2b1f4a8a/userFiles-f9fd5365-1ffa-48e2-b33f-22e594f09346/org.apache.commons_commons-pool2-2.11.1.jar
+26/11/24 18:50:02 INFO SparkContext: Added file file:///tmp/.ivy2/jars/org.apache.hadoop_hadoop-client-runtime-3.3.4.jar at spark://spark-master:46653/files/org.apache.hadoop_hadoop-client-runtime-3.3.4.jar with timestamp 1795546202449
+26/11/24 18:50:02 INFO Utils: Copying /tmp/.ivy2/jars/org.apache.hadoop_hadoop-client-runtime-3.3.4.jar to /tmp/spark-9bdd265d-1997-4bf3-b3ce-287a2b1f4a8a/userFiles-f9fd5365-1ffa-48e2-b33f-22e594f09346/org.apache.hadoop_hadoop-client-runtime-3.3.4.jar
+26/11/24 18:50:02 INFO SparkContext: Added file file:///tmp/.ivy2/jars/org.lz4_lz4-java-1.8.0.jar at spark://spark-master:46653/files/org.lz4_lz4-java-1.8.0.jar with timestamp 1795546202449
+26/11/24 18:50:02 INFO Utils: Copying /tmp/.ivy2/jars/org.lz4_lz4-java-1.8.0.jar to /tmp/spark-9bdd265d-1997-4bf3-b3ce-287a2b1f4a8a/userFiles-f9fd5365-1ffa-48e2-b33f-22e594f09346/org.lz4_lz4-java-1.8.0.jar
+26/11/24 18:50:02 INFO SparkContext: Added file file:///tmp/.ivy2/jars/org.xerial.snappy_snappy-java-1.1.10.5.jar at spark://spark-master:46653/files/org.xerial.snappy_snappy-java-1.1.10.5.jar with timestamp 1795546202449
+26/11/24 18:50:02 INFO Utils: Copying /tmp/.ivy2/jars/org.xerial.snappy_snappy-java-1.1.10.5.jar to /tmp/spark-9bdd265d-1997-4bf3-b3ce-287a2b1f4a8a/userFiles-f9fd5365-1ffa-48e2-b33f-22e594f09346/org.xerial.snappy_snappy-java-1.1.10.5.jar
+26/11/24 18:50:02 INFO SparkContext: Added file file:///tmp/.ivy2/jars/org.slf4j_slf4j-api-2.0.7.jar at spark://spark-master:46653/files/org.slf4j_slf4j-api-2.0.7.jar with timestamp 1795546202449
+26/11/24 18:50:02 INFO Utils: Copying /tmp/.ivy2/jars/org.slf4j_slf4j-api-2.0.7.jar to /tmp/spark-9bdd265d-1997-4bf3-b3ce-287a2b1f4a8a/userFiles-f9fd5365-1ffa-48e2-b33f-22e594f09346/org.slf4j_slf4j-api-2.0.7.jar
+26/11/24 18:50:02 INFO SparkContext: Added file file:///tmp/.ivy2/jars/org.apache.hadoop_hadoop-client-api-3.3.4.jar at spark://spark-master:46653/files/org.apache.hadoop_hadoop-client-api-3.3.4.jar with timestamp 1795546202449
+26/11/24 18:50:02 INFO Utils: Copying /tmp/.ivy2/jars/org.apache.hadoop_hadoop-client-api-3.3.4.jar to /tmp/spark-9bdd265d-1997-4bf3-b3ce-287a2b1f4a8a/userFiles-f9fd5365-1ffa-48e2-b33f-22e594f09346/org.apache.hadoop_hadoop-client-api-3.3.4.jar
+26/11/24 18:50:02 INFO SparkContext: Added file file:///tmp/.ivy2/jars/commons-logging_commons-logging-1.1.3.jar at spark://spark-master:46653/files/commons-logging_commons-logging-1.1.3.jar with timestamp 1795546202449
+26/11/24 18:50:02 INFO Utils: Copying /tmp/.ivy2/jars/commons-logging_commons-logging-1.1.3.jar to /tmp/spark-9bdd265d-1997-4bf3-b3ce-287a2b1f4a8a/userFiles-f9fd5365-1ffa-48e2-b33f-22e594f09346/commons-logging_commons-logging-1.1.3.jar
+26/11/24 18:50:03 INFO StandaloneAppClient$ClientEndpoint: Connecting to master spark://spark-master:7077...
+26/11/24 18:50:03 INFO TransportClientFactory: Successfully created connection to spark-master/172.18.0.25:7077 after 17 ms (0 ms spent in bootstraps)
+26/11/24 18:50:03 INFO StandaloneSchedulerBackend: Connected to Spark cluster with app ID app-20261124185003-0003
+26/11/24 18:50:03 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20261124185003-0003/0 on worker-20261124180713-172.18.0.26-46103 (172.18.0.26:46103) with 2 core(s)
+26/11/24 18:50:03 INFO StandaloneSchedulerBackend: Granted executor ID app-20261124185003-0003/0 on hostPort 172.18.0.26:46103 with 2 core(s), 1024.0 MiB RAM
+26/11/24 18:50:03 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 33551.
+26/11/24 18:50:03 INFO NettyBlockTransferService: Server created on spark-master:33551
+26/11/24 18:50:03 INFO BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+26/11/24 18:50:03 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, spark-master, 33551, None)
+26/11/24 18:50:03 INFO BlockManagerMasterEndpoint: Registering block manager spark-master:33551 with 434.4 MiB RAM, BlockManagerId(driver, spark-master, 33551, None)
+26/11/24 18:50:03 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, spark-master, 33551, None)
+26/11/24 18:50:03 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, spark-master, 33551, None)
+26/11/24 18:50:03 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20261124185003-0003/0 is now RUNNING
+26/11/24 18:50:03 INFO StandaloneSchedulerBackend: SchedulerBackend is ready for scheduling beginning after reached minRegisteredResourcesRatio: 0.0
+26/11/24 18:50:05 WARN AdminClientConfig: These configurations '[key.deserializer, value.deserializer, max.poll.records, enable.auto.commit, auto.offset.reset]' were supplied but are not used yet.
+[analytics] Data Lake актуален: 9 партиций догнали Kafka
+[analytics] товаров в каталоге: 17, событий клиентов: 18, строк заказов: 8
+
+=== Каталог по категориям  ->  hdfs://namenode:8020/datalake/marts/catalog_by_category
++---------------+--------+---------+---------------+
+|category       |products|avg_price|stock_available|
++---------------+--------+---------+---------------+
+|Электроника    |6       |9243.16  |1109           |
+|Спорт          |4       |5990.0   |367            |
+|Бытовая техника|3       |17823.33 |214            |
+|Книги          |2       |2390.0   |800            |
+|Одежда         |2       |5740.0   |230            |
++---------------+--------+---------+---------------+
+
+
+=== Популярные поисковые запросы  ->  hdfs://namenode:8020/datalake/marts/top_queries
++--------------------+--------+-----+-----------+
+|query               |searches|users|avg_results|
++--------------------+--------+-----+-----------+
+|книга kafka         |2       |1    |1.0        |
+|коврик для йоги     |2       |1    |1.0        |
+|кофемашина          |2       |1    |1.0        |
+|кроссовки           |2       |1    |2.0        |
+|наушники            |2       |1    |2.0        |
+|умные часы          |2       |1    |2.0        |
+|часы                |2       |1    |2.0        |
+|электронная сигарета|2       |1    |0.0        |
++--------------------+--------+-----+-----------+
+
+
+=== Интерес клиентов к категориям (поиск)  ->  hdfs://namenode:8020/datalake/marts/category_demand
++---------------+-----------+-----+
+|category       |impressions|users|
++---------------+-----------+-----+
+|Электроника    |12         |2    |
+|Спорт          |6          |1    |
+|Книги          |2          |1    |
+|Бытовая техника|2          |1    |
++---------------+-----------+-----+
+
+
+=== Продажи по категориям  ->  hdfs://namenode:8020/datalake/marts/sales_by_category
++---------------+------+-----+-------+------+
+|category       |orders|units|revenue|buyers|
++---------------+------+-----+-------+------+
+|Бытовая техника|2     |2    |59980.0|1     |
+|Спорт          |4     |6    |40940.0|2     |
+|Электроника    |2     |2    |9999.98|1     |
++---------------+------+-----+-------+------+
+
+
+=== Самые продаваемые товары  ->  hdfs://namenode:8020/datalake/marts/top_products_sales
++----------+--------------------------------+---------------+-----+-------+------+
+|product_id|name                            |category       |units|revenue|orders|
++----------+--------------------------------+---------------+-----+-------+------+
+|22001     |Кроссовки беговые AirRun        |Спорт          |4    |29960.0|2     |
+|33002     |Кофемашина BaristaHome          |Бытовая техника|2    |59980.0|2     |
+|22004     |Гантели разборные PowerSet 20 кг|Спорт          |2    |10980.0|2     |
+|12345     |Умные часы XYZ                  |Электроника    |2    |9999.98|2     |
++----------+--------------------------------+---------------+-----+-------+------+
+
+26/11/24 18:50:23 WARN WindowExec: No Partition Defined for Window operation! Moving all data to a single partition, this can cause serious performance degradation.
+26/11/24 18:50:23 WARN WindowExec: No Partition Defined for Window operation! Moving all data to a single partition, this can cause serious performance degradation.
+26/11/24 18:50:23 WARN WindowExec: No Partition Defined for Window operation! Moving all data to a single partition, this can cause serious performance degradation.
+26/11/24 18:50:23 WARN WindowExec: No Partition Defined for Window operation! Moving all data to a single partition, this can cause serious performance degradation.
+26/11/24 18:50:23 WARN WindowExec: No Partition Defined for Window operation! Moving all data to a single partition, this can cause serious performance degradation.
+26/11/24 18:50:23 WARN WindowExec: No Partition Defined for Window operation! Moving all data to a single partition, this can cause serious performance degradation.
+26/11/24 18:50:23 WARN WindowExec: No Partition Defined for Window operation! Moving all data to a single partition, this can cause serious performance degradation.
+26/11/24 18:50:23 WARN WindowExec: No Partition Defined for Window operation! Moving all data to a single partition, this can cause serious performance degradation.
+26/11/24 18:50:24 WARN WindowExec: No Partition Defined for Window operation! Moving all data to a single partition, this can cause serious performance degradation.
+26/11/24 18:50:24 WARN WindowExec: No Partition Defined for Window operation! Moving all data to a single partition, this can cause serious performance degradation.
+26/11/24 18:50:24 WARN WindowExec: No Partition Defined for Window operation! Moving all data to a single partition, this can cause serious performance degradation.
+26/11/24 18:50:24 WARN WindowExec: No Partition Defined for Window operation! Moving all data to a single partition, this can cause serious performance degradation.
+26/11/24 18:50:24 WARN WindowExec: No Partition Defined for Window operation! Moving all data to a single partition, this can cause serious performance degradation.
+26/11/24 18:50:24 WARN WindowExec: No Partition Defined for Window operation! Moving all data to a single partition, this can cause serious performance degradation.
+26/11/24 18:50:24 WARN WindowExec: No Partition Defined for Window operation! Moving all data to a single partition, this can cause serious performance degradation.
+26/11/24 18:50:24 WARN WindowExec: No Partition Defined for Window operation! Moving all data to a single partition, this can cause serious performance degradation.
+26/11/24 18:50:24 WARN WindowExec: No Partition Defined for Window operation! Moving all data to a single partition, this can cause serious performance degradation.
+26/11/24 18:50:24 WARN WindowExec: No Partition Defined for Window operation! Moving all data to a single partition, this can cause serious performance degradation.
+26/11/24 18:50:24 WARN WindowExec: No Partition Defined for Window operation! Moving all data to a single partition, this can cause serious performance degradation.
+26/11/24 18:50:24 WARN WindowExec: No Partition Defined for Window operation! Moving all data to a single partition, this can cause serious performance degradation.
+26/11/24 18:50:24 WARN WindowExec: No Partition Defined for Window operation! Moving all data to a single partition, this can cause serious performance degradation.
+26/11/24 18:50:24 WARN WindowExec: No Partition Defined for Window operation! Moving all data to a single partition, this can cause serious performance degradation.
+26/11/24 18:50:24 WARN WindowExec: No Partition Defined for Window operation! Moving all data to a single partition, this can cause serious performance degradation.
+26/11/24 18:50:24 WARN WindowExec: No Partition Defined for Window operation! Moving all data to a single partition, this can cause serious performance degradation.
+
+=== Рекомендации по пользователям  ->  hdfs://namenode:8020/datalake/marts/recommendations
++--------+-----------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------+-------------------------+
+|user_id |strategy         |recommendations                                                                                                                                                                                                                                                                                                                                                                                         |based_on_categories |generated_at             |
++--------+-----------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------+-------------------------+
+|user_003|category_affinity|[{1, 33001, Робот-пылесос CleanBot S5, Бытовая техника, CleanBot, 19990.0, RUB, 120.0}, {2, 33003, Электрочайник Smart Kettle, Бытовая техника, HomeTech, 3490.0, RUB, 120.0}]                                                                                                                                                                                                                          |[Бытовая техника]   |2026-11-24T18:50:22+00:00|
+|user_007|category_affinity|[{1, 22001, Кроссовки беговые AirRun, Спорт, AirRun, 7490.0, RUB, 112.0}, {2, 22002, Кроссовки трейловые AirRun Trail, Спорт, AirRun, 8990.0, RUB, 102.0}, {3, 22003, Коврик для йоги FlexMat, Спорт, FlexMat, 1990.0, RUB, 102.0}]                                                                                                                                                                     |[Спорт]             |2026-11-24T18:50:22+00:00|
+|user_001|category_affinity|[{1, 12346, Умные часы XYZ Pro, Электроника, XYZ, 12999.0, RUB, 184.0}, {2, 12348, Беспроводные наушники SoundMax, Электроника, SoundMax, 6990.0, RUB, 182.0}, {3, 12349, Наушники-вкладыши SoundMax Mini, Электроника, SoundMax, 2990.0, RUB, 182.0}, {4, 12347, Фитнес-браслет Pulse 3, Электроника, Pulse, 2490.0, RUB, 180.0}, {5, 12350, Смартфон Nova 12, Электроника, Nova, 24990.0, RUB, 180.0}]|[Электроника]       |2026-11-24T18:50:22+00:00|
+|user_004|category_affinity|[{1, 12345, Умные часы XYZ, Электроника, XYZ, 4999.99, RUB, 54.0}, {2, 12346, Умные часы XYZ Pro, Электроника, XYZ, 12999.0, RUB, 44.0}, {3, 12348, Беспроводные наушники SoundMax, Электроника, SoundMax, 6990.0, RUB, 42.0}, {4, 12349, Наушники-вкладыши SoundMax Mini, Электроника, SoundMax, 2990.0, RUB, 42.0}, {5, 12347, Фитнес-браслет Pulse 3, Электроника, Pulse, 2490.0, RUB, 40.0}]        |[Электроника, Книги]|2026-11-24T18:50:22+00:00|
+|user_006|popular          |[{1, 12345, Умные часы XYZ, Электроника, XYZ, 4999.99, RUB, 14.0}, {2, 33002, Кофемашина BaristaHome, Бытовая техника, BaristaHome, 29990.0, RUB, 12.0}, {3, 22001, Кроссовки беговые AirRun, Спорт, AirRun, 7490.0, RUB, 12.0}, {4, 22004, Гантели разборные PowerSet 20 кг, Спорт, PowerSet, 5490.0, RUB, 10.0}, {5, 12346, Умные часы XYZ Pro, Электроника, XYZ, 12999.0, RUB, 4.0}]                 |[]                  |2026-11-24T18:50:22+00:00|
+|user_002|category_affinity|[{1, 22004, Гантели разборные PowerSet 20 кг, Спорт, PowerSet, 5490.0, RUB, 170.0}, {2, 22002, Кроссовки трейловые AirRun Trail, Спорт, AirRun, 8990.0, RUB, 162.0}, {3, 22003, Коврик для йоги FlexMat, Спорт, FlexMat, 1990.0, RUB, 162.0}]                                                                                                                                                           |[Спорт]             |2026-11-24T18:50:22+00:00|
+|user_005|popular          |[{1, 12345, Умные часы XYZ, Электроника, XYZ, 4999.99, RUB, 14.0}, {2, 33002, Кофемашина BaristaHome, Бытовая техника, BaristaHome, 29990.0, RUB, 12.0}, {3, 22001, Кроссовки беговые AirRun, Спорт, AirRun, 7490.0, RUB, 12.0}, {4, 22004, Гантели разборные PowerSet 20 кг, Спорт, PowerSet, 5490.0, RUB, 10.0}, {5, 12346, Умные часы XYZ Pro, Электроника, XYZ, 12999.0, RUB, 4.0}]                 |[]                  |2026-11-24T18:50:22+00:00|
++--------+-----------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------+-------------------------+
+
+
+=== Рекомендации (построчно)
+26/11/24 18:50:26 WARN WindowExec: No Partition Defined for Window operation! Moving all data to a single partition, this can cause serious performance degradation.
+26/11/24 18:50:26 WARN WindowExec: No Partition Defined for Window operation! Moving all data to a single partition, this can cause serious performance degradation.
+26/11/24 18:50:26 WARN WindowExec: No Partition Defined for Window operation! Moving all data to a single partition, this can cause serious performance degradation.
+26/11/24 18:50:26 WARN WindowExec: No Partition Defined for Window operation! Moving all data to a single partition, this can cause serious performance degradation.
+26/11/24 18:50:26 WARN WindowExec: No Partition Defined for Window operation! Moving all data to a single partition, this can cause serious performance degradation.
+26/11/24 18:50:26 WARN WindowExec: No Partition Defined for Window operation! Moving all data to a single partition, this can cause serious performance degradation.
+26/11/24 18:50:26 WARN WindowExec: No Partition Defined for Window operation! Moving all data to a single partition, this can cause serious performance degradation.
+26/11/24 18:50:26 WARN WindowExec: No Partition Defined for Window operation! Moving all data to a single partition, this can cause serious performance degradation.
+26/11/24 18:50:26 WARN WindowExec: No Partition Defined for Window operation! Moving all data to a single partition, this can cause serious performance degradation.
+26/11/24 18:50:26 WARN WindowExec: No Partition Defined for Window operation! Moving all data to a single partition, this can cause serious performance degradation.
+26/11/24 18:50:26 WARN WindowExec: No Partition Defined for Window operation! Moving all data to a single partition, this can cause serious performance degradation.
+26/11/24 18:50:26 WARN WindowExec: No Partition Defined for Window operation! Moving all data to a single partition, this can cause serious performance degradation.
+26/11/24 18:50:26 WARN WindowExec: No Partition Defined for Window operation! Moving all data to a single partition, this can cause serious performance degradation.
+26/11/24 18:50:26 WARN WindowExec: No Partition Defined for Window operation! Moving all data to a single partition, this can cause serious performance degradation.
+26/11/24 18:50:26 WARN WindowExec: No Partition Defined for Window operation! Moving all data to a single partition, this can cause serious performance degradation.
+26/11/24 18:50:26 WARN WindowExec: No Partition Defined for Window operation! Moving all data to a single partition, this can cause serious performance degradation.
+26/11/24 18:50:26 WARN WindowExec: No Partition Defined for Window operation! Moving all data to a single partition, this can cause serious performance degradation.
+26/11/24 18:50:26 WARN WindowExec: No Partition Defined for Window operation! Moving all data to a single partition, this can cause serious performance degradation.
+26/11/24 18:50:26 WARN WindowExec: No Partition Defined for Window operation! Moving all data to a single partition, this can cause serious performance degradation.
+26/11/24 18:50:26 WARN WindowExec: No Partition Defined for Window operation! Moving all data to a single partition, this can cause serious performance degradation.
++--------+-----------------+----+----------+--------------------------------+---------------+-----------+-------+--------+-----+
+|user_id |strategy         |rank|product_id|name                            |category       |brand      |price  |currency|score|
++--------+-----------------+----+----------+--------------------------------+---------------+-----------+-------+--------+-----+
+|user_001|category_affinity|1   |12346     |Умные часы XYZ Pro              |Электроника    |XYZ        |12999.0|RUB     |184.0|
+|user_001|category_affinity|2   |12348     |Беспроводные наушники SoundMax  |Электроника    |SoundMax   |6990.0 |RUB     |182.0|
+|user_001|category_affinity|3   |12349     |Наушники-вкладыши SoundMax Mini |Электроника    |SoundMax   |2990.0 |RUB     |182.0|
+|user_001|category_affinity|4   |12347     |Фитнес-браслет Pulse 3          |Электроника    |Pulse      |2490.0 |RUB     |180.0|
+|user_001|category_affinity|5   |12350     |Смартфон Nova 12                |Электроника    |Nova       |24990.0|RUB     |180.0|
+|user_002|category_affinity|1   |22004     |Гантели разборные PowerSet 20 кг|Спорт          |PowerSet   |5490.0 |RUB     |170.0|
+|user_002|category_affinity|2   |22002     |Кроссовки трейловые AirRun Trail|Спорт          |AirRun     |8990.0 |RUB     |162.0|
+|user_002|category_affinity|3   |22003     |Коврик для йоги FlexMat         |Спорт          |FlexMat    |1990.0 |RUB     |162.0|
+|user_003|category_affinity|1   |33001     |Робот-пылесос CleanBot S5       |Бытовая техника|CleanBot   |19990.0|RUB     |120.0|
+|user_003|category_affinity|2   |33003     |Электрочайник Smart Kettle      |Бытовая техника|HomeTech   |3490.0 |RUB     |120.0|
+|user_004|category_affinity|1   |12345     |Умные часы XYZ                  |Электроника    |XYZ        |4999.99|RUB     |54.0 |
+|user_004|category_affinity|2   |12346     |Умные часы XYZ Pro              |Электроника    |XYZ        |12999.0|RUB     |44.0 |
+|user_004|category_affinity|3   |12348     |Беспроводные наушники SoundMax  |Электроника    |SoundMax   |6990.0 |RUB     |42.0 |
+|user_004|category_affinity|4   |12349     |Наушники-вкладыши SoundMax Mini |Электроника    |SoundMax   |2990.0 |RUB     |42.0 |
+|user_004|category_affinity|5   |12347     |Фитнес-браслет Pulse 3          |Электроника    |Pulse      |2490.0 |RUB     |40.0 |
+|user_005|popular          |1   |12345     |Умные часы XYZ                  |Электроника    |XYZ        |4999.99|RUB     |14.0 |
+|user_005|popular          |2   |33002     |Кофемашина BaristaHome          |Бытовая техника|BaristaHome|29990.0|RUB     |12.0 |
+|user_005|popular          |3   |22001     |Кроссовки беговые AirRun        |Спорт          |AirRun     |7490.0 |RUB     |12.0 |
+|user_005|popular          |4   |22004     |Гантели разборные PowerSet 20 кг|Спорт          |PowerSet   |5490.0 |RUB     |10.0 |
+|user_005|popular          |5   |12346     |Умные часы XYZ Pro              |Электроника    |XYZ        |12999.0|RUB     |4.0  |
+|user_006|popular          |1   |12345     |Умные часы XYZ                  |Электроника    |XYZ        |4999.99|RUB     |14.0 |
+|user_006|popular          |2   |33002     |Кофемашина BaristaHome          |Бытовая техника|BaristaHome|29990.0|RUB     |12.0 |
+|user_006|popular          |3   |22001     |Кроссовки беговые AirRun        |Спорт          |AirRun     |7490.0 |RUB     |12.0 |
+|user_006|popular          |4   |22004     |Гантели разборные PowerSet 20 кг|Спорт          |PowerSet   |5490.0 |RUB     |10.0 |
+|user_006|popular          |5   |12346     |Умные часы XYZ Pro              |Электроника    |XYZ        |12999.0|RUB     |4.0  |
+|user_007|category_affinity|1   |22001     |Кроссовки беговые AirRun        |Спорт          |AirRun     |7490.0 |RUB     |112.0|
+|user_007|category_affinity|2   |22002     |Кроссовки трейловые AirRun Trail|Спорт          |AirRun     |8990.0 |RUB     |102.0|
+|user_007|category_affinity|3   |22003     |Коврик для йоги FlexMat         |Спорт          |FlexMat    |1990.0 |RUB     |102.0|
++--------+-----------------+----+----------+--------------------------------+---------------+-----------+-------+--------+-----+
+
+
+[analytics] Записано 7 рекомендаций в топик recommendations основного кластера (kafka-1:19092,kafka-2:19092,kafka-3:19092)
+
+==== Data Lake в HDFS
+drwxr-xr-x   - spark supergroup          0 2026-11-24 18:50 /datalake/marts
+drwxr-xr-x   - spark supergroup          0 2026-11-24 18:50 /datalake/marts/catalog_by_category
+drwxr-xr-x   - spark supergroup          0 2026-11-24 18:50 /datalake/marts/category_demand
+drwxr-xr-x   - spark supergroup          0 2026-11-24 18:50 /datalake/marts/recommendations
+drwxr-xr-x   - spark supergroup          0 2026-11-24 18:50 /datalake/marts/sales_by_category
+drwxr-xr-x   - spark supergroup          0 2026-11-24 18:50 /datalake/marts/top_products_sales
+drwxr-xr-x   - spark supergroup          0 2026-11-24 18:50 /datalake/marts/top_queries
+drwxr-xr-x   - spark supergroup          0 2026-11-24 18:43 /datalake/raw
+drwxr-xr-x   - spark supergroup          0 2026-11-24 18:50 /datalake/raw/_spark_metadata
+drwxr-xr-x   - spark supergroup          0 2026-11-24 18:12 /datalake/raw/topic=primary.client-requests
+drwxr-xr-x   - spark supergroup          0 2026-11-24 18:49 /datalake/raw/topic=primary.client-requests/ingest_date=2026-11-24
+drwxr-xr-x   - spark supergroup          0 2026-11-24 18:43 /datalake/raw/topic=primary.orders
+drwxr-xr-x   - spark supergroup          0 2026-11-24 18:50 /datalake/raw/topic=primary.orders/ingest_date=2026-11-24
+drwxr-xr-x   - spark supergroup          0 2026-11-24 18:08 /datalake/raw/topic=primary.products-filtered
+drwxr-xr-x   - spark supergroup          0 2026-11-24 18:50 /datalake/raw/topic=primary.products-filtered/ingest_date=2026-11-24
+  ждём: рекомендации в Elasticsearch — готово (0 с)
+
+==== 8. CLIENT API: персональные рекомендации
+2026-11-24 18:50:31,285 | INFO    | client-api | Событие 333ca7c8-1027-4682-a4e9-03cf53c7eafd (recommendations) записано в топик client-requests
+
+Рекомендации для user_001 (стратегия: category_affinity, рассчитаны 2026-11-24T18:50:22+00:00)
+Интересы пользователя: Электроника
+ 1. [12346] Умные часы XYZ Pro | Электроника | 12999.0 RUB | score=184.0
+ 2. [12348] Беспроводные наушники SoundMax | Электроника | 6990.0 RUB | score=182.0
+ 3. [12349] Наушники-вкладыши SoundMax Mini | Электроника | 2990.0 RUB | score=182.0
+ 4. [12347] Фитнес-браслет Pulse 3 | Электроника | 2490.0 RUB | score=180.0
+ 5. [12350] Смартфон Nova 12 | Электроника | 24990.0 RUB | score=180.0
+
+Рекомендации для user_002 (стратегия: category_affinity, рассчитаны 2026-11-24T18:50:22+00:00)
+Интересы пользователя: Спорт
+2026-11-24 18:50:32,381 | INFO    | client-api | Событие 3e007314-1347-475c-a427-cb22d27cce7e (recommendations) записано в топик client-requests
+ 1. [22004] Гантели разборные PowerSet 20 кг | Спорт | 5490.0 RUB | score=170.0
+ 2. [22002] Кроссовки трейловые AirRun Trail | Спорт | 8990.0 RUB | score=162.0
+ 3. [22003] Коврик для йоги FlexMat | Спорт | 1990.0 RUB | score=162.0
+
+Рекомендации для user_006 (стратегия: popular, рассчитаны 2026-11-24T18:50:22+00:00)
+2026-11-24 18:50:33,369 | INFO    | client-api | Событие 3cfb977b-c241-411e-8528-5eccb1b701f8 (recommendations) записано в топик client-requests
+ 1. [12345] Умные часы XYZ | Электроника | 4999.99 RUB | score=14.0
+ 2. [33002] Кофемашина BaristaHome | Бытовая техника | 29990.0 RUB | score=12.0
+ 3. [22001] Кроссовки беговые AirRun | Спорт | 7490.0 RUB | score=12.0
+ 4. [22004] Гантели разборные PowerSet 20 кг | Спорт | 5490.0 RUB | score=10.0
+ 5. [12346] Умные часы XYZ Pro | Электроника | 12999.0 RUB | score=4.0
+
+Рекомендации для user_007 (стратегия: category_affinity, рассчитаны 2026-11-24T18:50:22+00:00)
+Интересы пользователя: Спорт
+2026-11-24 18:50:34,191 | INFO    | client-api | Событие c34f3594-77a5-4701-88c1-362cff2c22c1 (recommendations) записано в топик client-requests
+ 1. [22001] Кроссовки беговые AirRun | Спорт | 7490.0 RUB | score=112.0
+ 2. [22002] Кроссовки трейловые AirRun Trail | Спорт | 8990.0 RUB | score=102.0
+ 3. [22003] Коврик для йоги FlexMat | Спорт | 1990.0 RUB | score=102.0
+
+Последние запросы пользователя user_001 (из Elasticsearch): 5
+  2026-11-24T18:50:31+00:00 | recommendations | - | найдено: 0
+  2026-11-24T18:49:36+00:00 | search          | наушники | найдено: 2
+  2026-11-24T18:49:35+00:00 | search          | умные часы | найдено: 2
+  2026-11-24T18:42:49+00:00 | search          | наушники | найдено: 2
+  2026-11-24T18:42:48+00:00 | search          | умные часы | найдено: 2
+
+==== 9. Запрет товара, который уже есть в хранилище
+2026-11-24 18:50:36,014 | INFO    | banned-products | Товар 12346 добавлен в список запрещённых (причина: Проверка: товар удаляется из хранилища)
+  ждём: товар 12346 удалён из Elasticsearch. — готово (3 с)
+
+Поиск «умные часы»: найдено 1
+ 1. [12345] Умные часы XYZ
+    Электроника | XYZ | 4999.99 RUB | в наличии: 149 | магазин: store_001
+    Умные часы с функцией мониторинга здоровья, GPS и уведомлениями.
+2026-11-24 18:50:41,444 | INFO    | client-api | Событие da00456e-5971-4a4d-98a4-0138364530b1 (search) записано в топик client-requests
+
+Товар 12346 не найден или недоступен для продажи.
+2026-11-24 18:50:43,108 | INFO    | client-api | Событие c09dc6f2-8fad-4169-97f4-a63b503849fd (recommendations) записано в топик client-requests
+
+Рекомендации для user_001 (стратегия: category_affinity, рассчитаны 2026-11-24T18:50:22+00:00)
+Интересы пользователя: Электроника
+ 2. [12348] Беспроводные наушники SoundMax | Электроника | 6990.0 RUB | score=182.0
+ 3. [12349] Наушники-вкладыши SoundMax Mini | Электроника | 2990.0 RUB | score=182.0
+ 4. [12347] Фитнес-браслет Pulse 3 | Электроника | 2490.0 RUB | score=180.0
+ 5. [12350] Смартфон Nova 12 | Электроника | 24990.0 RUB | score=180.0
+(скрыто недоступных для продажи товаров: 1)
+
+==== 10. Снятие запрета: Faust публикует последнюю версию товара снова
+2026-11-24 18:50:43,780 | INFO    | banned-products | Товар 12346 удалён из списка запрещённых
+  ждём: товар 12346 вернулся в Elasticsearch — готово (0 с)
+
+==== 11. Итоговое состояние данных
+
+==== Основной кластер (primary): сообщений в топиках (последний офсет)
+  shop-products          105
+  products-filtered      101
+  shop-products-dlq      5
+  banned-products        8
+  client-requests        25
+  orders                 8
+  recommendations        14
+  products-filtered содержит и обновления остатков после заказов, и tombstone при запретах,
+  поэтому он может быть больше числа разрешённых товаров.
+
+==== Аналитический кластер (analytics): копии MirrorMaker 2
+primary.checkpoints.internal
+primary.client-requests
+primary.orders
+primary.products-filtered
+primary.shop-products
+  primary.shop-products        primary=105    analytics=105
+  primary.products-filtered    primary=101    analytics=101
+  primary.client-requests      primary=25     analytics=25
+  primary.orders               primary=8      analytics=8
+
+==== Фильтрация: ID товаров в Elasticsearch и запрещённые ID
+12345 12346 12347 12348 12349 12350 22001 22002 22003 22004 33001 33002 33003 44001 44002 55001 55002 
+  запрещённые (data/banned-products.json): 90001 90002 90003 
+  текущий список запрещённых:
+  
+  Запрещённых товаров: 3
+    90001      Табачная и никотиносодержащая продукция       с 2026-11-24T18:35:04+00:00
+    90002      Оружие и его копии                            с 2026-11-24T18:35:04+00:00
+    90003      Пиротехника классов F3-F4                     с 2026-11-24T18:35:04+00:00
+
+==== Хранилище: Elasticsearch
+index             health docs.count
+client-requests   green          24
+products-filtered green          17
+orders            green          16
+recommendations   green          35
+
+==== Хранилище: файл FileStream Sink (/data/sink/products-filtered.jsonl)
+  строк: 94
+{"product_id": "12345", "name": "Умные часы XYZ", "description": "Умные часы с функцией мониторинга здоровья, GPS и уведомлениями.", "price": {"amount": 4999.99, "currency": "RUB"}, "category": "Электроника", "brand": "XYZ", "sto
+
+==== Коннекторы
+{"name":"elasticsearch-sink","connector":{"state":"RUNNING","worker_id":"kafka-connect:8083"},"tasks":[{"id":0,"state":"RUNNING","worker_id":"kafka-connect:8083"}],"type":"sink"}
+{"name":"file-sink","connector":{"state":"RUNNING","worker_id":"kafka-connect:8083"},"tasks":[{"id":0,"state":"RUNNING","worker_id":"kafka-connect:8083"}],"type":"sink"}
+
+==== Lag групп потребителей основного кластера
+  GROUP              TOPIC                                PARTITION CURRENT-OFFSET LOG-END-OFFSET LAG
+  faust-moderation   orders                               0         1        1        0
+  faust-moderation   faust-moderation-products-latest-changelog 1         -        30       -
+  faust-moderation   shop-products                        1         30       30       0
+  faust-moderation   banned-products                      2         4        4        0
+  faust-moderation   faust-moderation-banned-products-table-changelog 0         -        4        -
+  faust-moderation   orders                               1         6        6        0
+  faust-moderation   faust-moderation-banned-products-table-changelog 2         -        4        -
+  faust-moderation   shop-products                        0         20       20       0
+  faust-moderation   faust-moderation-stock-reservations  2         4        4        0
+  faust-moderation   faust-moderation-orders-processed-changelog 2         -        1        -
+  faust-moderation   faust-moderation-products-latest-changelog 0         -        10       -
+  faust-moderation   faust-moderation-stock-reserved-changelog 1         -        3        -
+  faust-moderation   faust-moderation-stock-reservations  0         2        2        0
+  faust-moderation   faust-moderation-stock-reservations  1         2        2        0
+  faust-moderation   faust-moderation-orders-processed-changelog 1         -        6        -
+  faust-moderation   banned-products                      0         4        4        0
+  faust-moderation   shop-products                        2         55       55       0
+  faust-moderation   banned-products                      1         -        0        -
+  faust-moderation   faust-moderation-stock-reserved-changelog 2         -        6        -
+  faust-moderation   faust-moderation-banned-products-table-changelog 1         -        0        -
+  faust-moderation   faust-moderation-products-latest-changelog 2         -        45       -
+  faust-moderation   orders                               2         1        1        0
+  faust-moderation   faust-moderation-orders-processed-changelog 0         -        1        -
+  faust-moderation   faust-moderation-__assignor-__leader 0         -        0        -
+  faust-moderation   faust-moderation-stock-reserved-changelog 0         -        3        -
+
+==== DLQ потоковой обработки (shop-products-dlq)
+{"error": "Expecting property name enclosed in double quotes: line 1 column 2 (char 1)", "source_topic": "shop-products", "raw_value": "{not a valid json", "failed_at": "2026-11-24T18:11:37+00:00"}
+{"error": "Expecting property name enclosed in double quotes: line 1 column 2 (char 1)", "source_topic": "shop-products", "raw_value": "{not a valid json", "failed_at": "2026-11-24T18:35:46+00:00"}
+{"error": "Expecting property name enclosed in double quotes: line 1 column 2 (char 1)", "source_topic": "shop-products", "raw_value": "{not a valid json", "failed_at": "2026-11-24T18:40:57+00:00"}
+{"error": "Expecting property name enclosed in double quotes: line 1 column 2 (char 1)", "source_topic": "shop-products", "raw_value": "{not a valid json", "failed_at": "2026-11-24T18:42:46+00:00"}
+{"error": "Expecting property name enclosed in double quotes: line 1 column 2 (char 1)", "source_topic": "shop-products", "raw_value": "{not a valid json", "failed_at": "2026-11-24T18:49:33+00:00"}
+
+==== Data Lake (HDFS)
+18.3 K   18.3 K   /datalake/raw/_spark_metadata
+22.9 K   68.7 K   /datalake/raw/topic=primary.client-requests
+16.3 K   49.0 K   /datalake/raw/topic=primary.orders
+100.8 K  302.4 K  /datalake/raw/topic=primary.products-filtered
+1.5 K    4.6 K    /datalake/marts/catalog_by_category
+1.2 K    3.6 K    /datalake/marts/category_demand
+14.8 K   44.3 K   /datalake/marts/recommendations
+1.7 K    5.2 K    /datalake/marts/sales_by_category
+2.2 K    6.7 K    /datalake/marts/top_products_sales
+1.6 K    4.7 K    /datalake/marts/top_queries

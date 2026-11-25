@@ -1,0 +1,21 @@
+{
+  "settings": {
+    "number_of_shards": 1,
+    "number_of_replicas": 0
+  },
+  "mappings": {
+    "properties": {
+      "event_id": { "type": "keyword" },
+      "event_type": { "type": "keyword" },
+      "user_id": { "type": "keyword" },
+      "query": {
+        "type": "text",
+        "analyzer": "russian",
+        "fields": { "raw": { "type": "keyword", "ignore_above": 256 } }
+      },
+      "result_product_ids": { "type": "keyword" },
+      "result_count": { "type": "integer" },
+      "created_at": { "type": "date" }
+    }
+  }
+}
